@@ -1,3 +1,4 @@
+package testing;
 
 
 import java.sql.DriverManager;
@@ -29,7 +30,7 @@ public class OracleJDBC {
 		//connect to DB
 		try {
 			connection = DriverManager.getConnection(
-					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_s2u9a", "a33425125");
+					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_n2v8", "a36847127");
 		} catch (SQLException e) {
 			System.out.println("Connection failed");
 			e.printStackTrace();
@@ -55,11 +56,15 @@ public class OracleJDBC {
 		
 		try {
 			Statement stmt = connection.createStatement();
+			System.out.println("before query");
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Movie");
+			System.out.println("after query");
+			System.out.println(rs.next());
 			while (rs.next()) {
+				System.out.println("in while loop");
 	            String au_id = rs.getString("genre");
 	            //String au_lname = rs.getString("AU_LNAME");
-	            System.out.println(au_id + "\n");
+	            System.out.println(au_id);
 	        }
 			connection.close();
 		} catch (SQLException e) {
@@ -69,3 +74,4 @@ public class OracleJDBC {
 		
 	}
 }
+

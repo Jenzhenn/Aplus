@@ -15,7 +15,9 @@ public class Movie {
 		this.movieID = movieID;
 		this.rating = rating;
 	}
-
+	public String printMovie(){
+		return "MID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating;
+	}
 }
 
 /*

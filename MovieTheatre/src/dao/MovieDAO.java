@@ -17,7 +17,7 @@ public class MovieDAO {
 		//connect to database
 		try {
 			con = DriverManager.getConnection(
-					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_s2u9a", "a33425125");
+					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_n2v8", "a36847127");
 		} catch (SQLException e) {
 			System.out.println("Connection failed");
 			e.printStackTrace();
@@ -44,7 +44,7 @@ public class MovieDAO {
 		
 		try {
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM movie");
+			rs = stmt.executeQuery("SELECT * FROM Movie");
 			
 			while (rs.next()){
 				Movie tempMovie = convertRowToMovie(rs);
@@ -111,6 +111,12 @@ public class MovieDAO {
 			con.close();
 		}
 	}
+	
+	public static void printMovies(List<Movie> movies){
+		for (Movie m:movies){
+			System.out.println(m.printMovie());
+		}
+	}
 
 	private void close(Statement stmt, ResultSet rs) throws SQLException {
 		close(null, stmt, rs);		
@@ -132,8 +138,8 @@ public class MovieDAO {
 		
 		MovieDAO dao = new MovieDAO();
 
-		System.out.println(dao.displayByGenre("family"));
-		System.out.println(dao.getAllMovie());	
+		MovieDAO.printMovies(dao.displayByGenre("family"));
+		MovieDAO.printMovies(dao.getAllMovie());	
 		
 	}
 
