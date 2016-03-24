@@ -48,7 +48,7 @@ public class Main extends JFrame {
 		JButton btnCustomer = new JButton("Customer");
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new CustomerFrame();
+				new CustomerFrame().setVisible(true);
 			}
 		});
 		btnCustomer.setBounds(157, 22, 138, 60);
