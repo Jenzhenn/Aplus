@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -5,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+
+import core.Movie;
 
 public class MovieDAO {
 	
@@ -130,7 +133,7 @@ public class MovieDAO {
 		MovieDAO dao = new MovieDAO();
 
 		System.out.println(dao.displayByGenre("family"));
-		System.out.println(dao.getAllMovie());		
+		System.out.println(dao.getAllMovie());	
 		
 	}
 
