@@ -27,6 +27,7 @@ public class Main extends JFrame {
 				try {
 					Main frame = new Main();
 					frame.setVisible(true);
+					frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -40,6 +41,7 @@ public class Main extends JFrame {
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setTitle("Select User Group");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -49,16 +51,29 @@ public class Main extends JFrame {
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new CustomerFrame().setVisible(true);
+				dispose();
 			}
 		});
 		btnCustomer.setBounds(157, 22, 138, 60);
 		contentPane.add(btnCustomer);
 		
 		JButton btnCashier = new JButton("Cashier");
+		btnCashier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CashierFrame().setVisible(true);
+				dispose();
+			}
+		});
 		btnCashier.setBounds(157, 104, 138, 60);
 		contentPane.add(btnCashier);
 		
 		JButton btnManager = new JButton("Manager");
+		btnManager.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ManagerFrame().setVisible(true);
+				dispose();
+			}
+		});
 		btnManager.setBounds(157, 181, 138, 60);
 		contentPane.add(btnManager);
 	}
