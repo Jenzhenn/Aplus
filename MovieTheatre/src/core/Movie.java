@@ -1,22 +1,75 @@
 package core;
 
+import java.util.List;
+import java.util.Set;
+
+
 public class Movie {
 	private String genre;
 	private String language;
 	private int length;
 	private String movieID;
 	private String rating;
+	private Set<String> directorList;
+	private Set<String> actorList;
 	
-	public Movie(String genre, String language, int length, String movieID, String rating){
+	public Movie(String genre, String language, int length, String movieID, String rating, Set<String> directorList, Set<String> actorList){
 		super();
 		this.genre = genre;
 		this.language = language;
 		this.length = length;
 		this.movieID = movieID;
 		this.rating = rating;
+		this.directorList = directorList;
+		this.actorList = actorList;
 	}
 	public String printMovie(){
-		return "MID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating;
+		return "MID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating + "\nDirector(s): " + directorList + "\nActor(s): " + actorList;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((movieID == null) ? 0 : movieID.hashCode());
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Movie other = (Movie) obj;
+		if (movieID == null) {
+			if (other.movieID != null)
+				return false;
+		} else if (!movieID.equals(other.movieID))
+			return false;
+		return true;
+	}
+	
+	public void mergeDirector(Movie sameMovie){
+		directorList.addAll(sameMovie.getDirector());
+	}
+	
+	public Set<String> getDirector(){
+		return directorList;
+	}
+	
+	public Set<String> getActor(){
+		return actorList;
+	}
+	public void mergeActor(Movie sameMovie) {
+		actorList.addAll(sameMovie.getActor());
+		
 	}
 }
 

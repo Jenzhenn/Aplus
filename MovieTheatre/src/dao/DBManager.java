@@ -68,17 +68,25 @@ public class DBManager {
 		return returnString;
 	}
 	
+
 	public List<Movie> getAllMovie() throws Exception{
-		List<Movie> movieList = new ArrayList<>();
-		Statement stmt = null;
-		ResultSet rs = null;
 		
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM Movie");
+			List<Movie> movieList = new ArrayList<Movie>();
+			Statement stmt = null;
+			ResultSet rs = null;
 			
-			while (rs.next()){
+			try {
+				stmt = con.createStatement();
+				rs = stmt.executeQuery("select * from movie natural left join performed_by natural left join directed_by");
+			while(rs.next()){
 				Movie tempMovie = convertRowToMovie(rs);
+				if(movieList.contains(tempMovie)){
+					int index = movieList.indexOf(tempMovie);
+					Movie sameMovie = movieList.get(index);
+					tempMovie.mergeDirector(sameMovie);
+					tempMovie.mergeActor(sameMovie);
+					movieList.remove(index);
+				}
 				movieList.add(tempMovie);
 			}
 			
@@ -87,22 +95,30 @@ public class DBManager {
 		finally{
 			close(stmt,rs);
 		}
-		
-		
 	}
 
 	public List<Movie> displayByGenre(String genre) throws Exception{
-		List<Movie> movieList = new ArrayList<>();
+		List<Movie> movieList = new ArrayList<Movie>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try{
-			stmt = con.prepareStatement("SELECT * FROM movie WHERE genre like ?");
+			stmt = con.prepareStatement("SELECT * FROM movie natural join performed_by, directed_by WHERE genre like ?");
 			stmt.setString(1, genre);
 			rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				Movie tempMovie = convertRowToMovie(rs);
+				if(movieList.contains(tempMovie)){
+
+					
+					int index = movieList.indexOf(tempMovie);
+					Movie sameMovie = movieList.get(index);
+					tempMovie.mergeDirector(sameMovie);
+					tempMovie.mergeActor(sameMovie);
+					movieList.remove(index);
+				}
+				
 				movieList.add(tempMovie);
 			}
 			
@@ -113,6 +129,7 @@ public class DBManager {
 		}
 	}
 	
+	
 	private Movie convertRowToMovie(ResultSet rs) throws SQLException{
 
 		String genre = rs.getString("genre");
@@ -120,8 +137,12 @@ public class DBManager {
 		int length = rs.getInt("length");
 		String movieID = rs.getString("movie_ID");
 		String rating = rs.getString("rating");
+		Set<String> directorList = new HashSet<String>();
+		directorList.add(rs.getString("dname"));
+		Set<String> actorList = new HashSet<String>();
+		actorList.add(rs.getString("aname"));
 		
-		Movie tempMovie = new Movie(genre, language, length, movieID, rating);
+		Movie tempMovie = new Movie(genre, language, length, movieID, rating, directorList, actorList);
 		
 		return tempMovie;
 	}
@@ -152,7 +173,16 @@ public class DBManager {
 		close(null, stmt, rs);		
 	}
 	
+	public static void main(String[] args) throws Exception{
 
+		DBManager dao = new DBManager();
+
+		//MovieDAO.printMovies(dao.displayByGenre("family"));
+		DBManager.printMovies(dao.getAllMovie());	
+		
+	}
+
+	
 
 	
 
