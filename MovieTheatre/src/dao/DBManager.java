@@ -9,11 +9,19 @@ import java.util.*;
 
 import core.Movie;
 
-public class MovieDAO {
+public class DBManager {
 	
 	private Connection con;
 	
-	public MovieDAO() throws Exception {
+	public DBManager() {
+		try{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e){
+			System.out.println("Where is your Oracle JDBC Driver?");
+			e.printStackTrace();
+			return;
+		}
+		
 		//connect to database
 		try {
 			con = DriverManager.getConnection(
@@ -35,6 +43,29 @@ public class MovieDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String[] getEIDEname(String eid) throws SQLException{
+		String[] returnString = new String[2];
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			stmt = con.prepareStatement("Select eid,ename from employee where eid like ?");
+			stmt.setString(1, eid);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()){
+				returnString[0] = rs.getString("eid");
+				System.out.println(returnString[0]);
+				returnString[1] = rs.getString("ename");
+				System.out.println(returnString[1]);
+			}
+			
+		}finally{
+			close(stmt,rs);
+		}
+		return returnString;
 	}
 	
 	public List<Movie> getAllMovie() throws Exception{
@@ -66,7 +97,6 @@ public class MovieDAO {
 		ResultSet rs = null;
 		
 		try{
-			genre += "%";
 			stmt = con.prepareStatement("SELECT * FROM movie WHERE genre like ?");
 			stmt.setString(1, genre);
 			rs = stmt.executeQuery();
@@ -122,26 +152,7 @@ public class MovieDAO {
 		close(null, stmt, rs);		
 	}
 	
-	public static void main(String[] args) throws Exception{
-		System.out.println("-------- Oracle JDBC Connection Testing ------");
-		
-		//register driver
-		try{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e){
-			System.out.println("Where is your Oracle JDBC Driver?");
-			e.printStackTrace();
-			return;
-		}
-		
-		System.out.println("Oracle JDBC Driver Registered");		
-		
-		MovieDAO dao = new MovieDAO();
 
-		MovieDAO.printMovies(dao.displayByGenre("family"));
-		MovieDAO.printMovies(dao.getAllMovie());	
-		
-	}
 
 	
 

@@ -18,6 +18,7 @@ public class MovieInfo extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	
 
 	/**
 	 * Launch the application.

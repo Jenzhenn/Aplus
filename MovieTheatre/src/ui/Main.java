@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import dao.DBManager;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -17,7 +20,7 @@ import java.awt.event.MouseEvent;
 public class Main extends JFrame {
 
 	private JPanel contentPane;
-
+	public DBManager db;
 	/**
 	 * Launch the application.
 	 */
@@ -47,6 +50,8 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		db = new DBManager();
+		
 		JButton btnCustomer = new JButton("Customer");
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -60,7 +65,7 @@ public class Main extends JFrame {
 		JButton btnCashier = new JButton("Cashier");
 		btnCashier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CashierFrame().setVisible(true);
+				new CashierFrame(db).setVisible(true);
 				dispose();
 			}
 		});
