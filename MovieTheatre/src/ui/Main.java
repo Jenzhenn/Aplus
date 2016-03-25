@@ -75,7 +75,7 @@ public class Main extends JFrame {
 		JButton btnManager = new JButton("Manager");
 		btnManager.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ManagerFrame().setVisible(true);
+				new ManagerFrame(db).setVisible(true);
 				dispose();
 			}
 		});

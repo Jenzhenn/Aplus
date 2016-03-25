@@ -11,19 +11,15 @@ import dao.DBManager;
 
 import java.awt.CardLayout;
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
-import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
-import java.awt.GridBagLayout;
+
 
 public class CashierFrame extends JFrame {
 	private JTextField textEIDField;
@@ -39,7 +35,7 @@ public class CashierFrame extends JFrame {
 	public CashierFrame(DBManager db) {
 		this.db = db;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 583, 433);
 		setTitle("Cashier View");
 		getContentPane().setLayout(new MigLayout("", "[][][][][][][][][][][][grow]", "[][][][][][][][][grow]"));
 		
@@ -48,7 +44,7 @@ public class CashierFrame extends JFrame {
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
 		JPanel panelLogin = new JPanel();
-		mainPanel.add(panelLogin, "name_171831861873876");
+		//mainPanel.add(panelLogin, "name_171831861873876");
 		
 		JLabel lblEnterEid = new JLabel("Enter EID:");
 		panelLogin.add(lblEnterEid);
@@ -67,9 +63,9 @@ public class CashierFrame extends JFrame {
 					eid = eidEnamePair[0];
 					name = eidEnamePair[1];
 					JLabel lblEid = new JLabel("EID: "+eid);
-					panelLeft.add(lblEid, "cell 0 6");
+					panelLeft.add(lblEid, "cell 0 9,aligny bottom");
 					JLabel lblName = new JLabel("Name:"+name);
-					panelLeft.add(lblName, "cell 0 7");
+					panelLeft.add(lblName, "cell 0 10,aligny bottom");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(mainPanel, "Invalid SQL Operation");
@@ -79,7 +75,7 @@ public class CashierFrame extends JFrame {
 		panelLogin.add(btnNewButton);
 		
 		JPanel panelCashier = new JPanel();
-		mainPanel.add(panelCashier, "name_171853031906081");
+		//mainPanel.add(panelCashier, "name_171853031906081");
 		
 		mainPanel.add(panelLogin, "Login");
 		mainPanel.add(panelCashier, "Cashier view");
@@ -91,18 +87,39 @@ public class CashierFrame extends JFrame {
 		//Left Panel Contain Button and eid,ename (created in Login ActionListener)
 		panelLeft = new JPanel();
 		splitPane.setLeftComponent(panelLeft);
-		panelLeft.setLayout(new MigLayout("", "[83px]", "[23px][][][][][][][]"));
+		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][]"));
 		
 		JButton btnMovieInfo = new JButton("Movie Info");
+		btnMovieInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+				cardLayout.show(panelRight, "Movie Info");
+			}
+		});
 		panelLeft.add(btnMovieInfo, "cell 0 0,alignx left,aligny top");
 		
 		JButton btnSellTicket = new JButton("Sell Ticket");
+		btnSellTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+				cardLayout.show(panelRight, "Sell Tickets");
+			}
+		});
 		panelLeft.add(btnSellTicket, "cell 0 1");
+		
+		JButton btnAddHours = new JButton("Add Hours");
+		panelLeft.add(btnAddHours, "cell 0 2");
 		
 
 		//Right Panel should show correct information correspond to the pushed button
 		panelRight = new JPanel();
 		splitPane.setRightComponent(panelRight);
 		panelRight.setLayout(new CardLayout(0, 0));
+		
+		JPanel panelMovieInfo = new MovieInfoPanel();
+		JPanel panelSellTicket = new TicketPanel();
+		panelRight.add(panelMovieInfo,"Movie Info");
+		panelRight.add(panelSellTicket, "Sell Tickets");
+		
 	}
 }
