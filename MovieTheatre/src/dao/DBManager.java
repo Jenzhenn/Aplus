@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
-import core.Employee;
 import core.Movie;
+import core.Ticket;
 
 public class DBManager {
 	
@@ -28,7 +28,7 @@ public class DBManager {
 			con = DriverManager.getConnection(
 					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_n2v8", "a36847127");
 		} catch (SQLException e) {
-			System.out.println("Connection failed");
+			System.out.println("Connection failed ");
 			e.printStackTrace();
 			return;
 		}
@@ -45,8 +45,7 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-
-////// Employee	
+	
 	public String[] getEIDEname(String eid) throws SQLException{
 		String[] returnString = new String[2];
 		PreparedStatement stmt = null;
@@ -70,84 +69,7 @@ public class DBManager {
 		return returnString;
 	}
 	
-	public Boolean checkManager(String eid) throws SQLException{
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		Boolean result = false;
-		
-		try {
-			stmt = con.prepareStatement("select count(*) from manager where eid like ?");
-			stmt.setString(1, eid);
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				result = rs.getBoolean(1);
-				System.out.println(result);
-			}
-		} finally{
-			close(stmt,rs);
-		}
 
-		
-		return result;
-	}
-	
-	
-	
-	public String[] managerLogin(String eid) throws SQLException{
-		if(checkManager(eid)){
-			String[] eidEnamePair =getEIDEname(eid);
-			return eidEnamePair;
-		} else {
-			throw new SQLException();
-		}
-		
-	}
-	
-	public void deleteEmployee(String eid) throws SQLException{
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		try{
-			stmt = con.prepareStatement("delete from employee where eid like ?");
-			stmt.setString(1, eid);
-			rs = stmt.executeQuery();
-		}finally{
-			close(stmt,rs);
-		}
-	}
-	
-	public List<Employee> getAllEmployee() throws SQLException{
-		List<Employee> employeeList = new ArrayList<Employee>();
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		try{
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("select * from employee");
-			while(rs.next()){
-				Employee employee = convertRowToEmployee(rs);
-				employeeList.add(employee);
-			}
-			
-			return employeeList;
-		} finally{
-			close(stmt,rs);
-		}
-	}
-	
-	public Employee convertRowToEmployee(ResultSet rs) throws SQLException{
-
-		String eid = rs.getString("eid");
-		String name = rs.getString("ename");
-		String phone = rs.getString("ephone");
-		Integer salary = rs.getInt("salary");
-		Employee employee = new Employee(eid,name,phone,salary);
-		
-		return employee;
-	}
-
-	
-//////Movie
 	public List<Movie> getAllMovie() throws Exception{
 		
 			List<Movie> movieList = new ArrayList<Movie>();
@@ -188,8 +110,7 @@ public class DBManager {
 			
 			while(rs.next()){
 				Movie tempMovie = convertRowToMovie(rs);
-				if(movieList.contains(tempMovie)){
-
+				if(movieList.contains(tempMovie)){				
 					int index = movieList.indexOf(tempMovie);
 					Movie sameMovie = movieList.get(index);
 					tempMovie.mergeDirector(sameMovie);
@@ -210,7 +131,6 @@ public class DBManager {
 	
 	private Movie convertRowToMovie(ResultSet rs) throws SQLException{
 
-		String title = rs.getString("title");
 		String genre = rs.getString("genre");
 		String language = rs.getString("language");
 		int length = rs.getInt("length");
@@ -221,7 +141,7 @@ public class DBManager {
 		Set<String> actorList = new HashSet<String>();
 		actorList.add(rs.getString("aname"));
 		
-		Movie tempMovie = new Movie(title, genre, language, length, movieID, rating, directorList, actorList);
+		Movie tempMovie = new Movie(genre, language, length, movieID, rating, directorList, actorList);
 		
 		return tempMovie;
 	}
@@ -248,73 +168,41 @@ public class DBManager {
 		}
 	}
 	
-//////Ticket
-	public List<String> seeMostSoldMovie() throws Exception{
-		// sql query find the max:
-		// get all tickets group by movieID
-		// compute avg for each group: sumofisSold/countOfTicket
-		//return the movieID of the most sold movie
-		List<String> movieList = new ArrayList<String>();
-		
-		Statement stmt = null;
+	
+	public int availableSeats(int auditorium, String date, String time, String mID)throws Exception{
+		int avail_seat = 0;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("max");
-		while(rs.next()){
-			String movieID = rs.getString("movie_ID");
-			movieList.add(movieID);
-		}
-		
-		return movieList;
-		}
-		finally{
-			close(stmt,rs);
-		}
-	}
-	
-	public List<String> seeLeastSoldMovie() throws Exception{
-		//return the movieID of the least sold movie
-		List<String> movieList = new ArrayList<String>();
-		
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("max");
-		while(rs.next()){
-			String movieID = rs.getString("movie_ID");
-			movieList.add(movieID);
-		}
-		
-		return movieList;
-		}
-		finally{
-			close(stmt,rs);
-		}
-	}
-	
-	public static void printLeastOrMostSoldMovie(List<String> movies){
-		for (String m:movies){
-			printMovieID(m);
-		}
-	}
-	
-	public static void printMovieID(String m){
-		System.out.println(m);
-	}
-	
+		try{
+			stmt = con.prepareStatement("SELECT * FROM ticket WHERE show_date = ? AND show_time = ? AND movie_ID = ? AND audi_num = ?");
+			stmt.setString(1, date);
+			stmt.setString(2, time);
+			stmt.setString(3, mID);
+			stmt.setInt(4, auditorium);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
 
-	public void quit(){
-	    try {
-            con.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+				
+				int isSold = rs.getInt("isSold");
+				rs.getString("show_time");
+				rs.getString("show_date");
+				rs.getString("movie_ID");
+				rs.getInt("audi_num");
+				
+				if (isSold == 0) {
+					avail_seat = avail_seat+1;
+				}
+			}
+			return avail_seat;
+		}
+		finally{
+			close(stmt,rs);
+		}	
+		
 	}
+
 
 	private void close(Statement stmt, ResultSet rs) throws SQLException {
 		close(null, stmt, rs);		
@@ -326,11 +214,11 @@ public class DBManager {
 
 		//MovieDAO.printMovies(dao.displayByGenre("family"));
 		DBManager.printMovies(dao.getAllMovie());	
+//		System.out.println("Available seats: " + dao.availableSeats(2, "3/22/2016", "15:45", "104112"));
+//		System.out.println("Available seats: " + dao.availableSeats(8, "1/23/2016", "9:20", "098344"));
+//		System.out.println("Available seats: " + dao.availableSeats(1, "1/23/2016", "9:20", "098344"));
 		
 	}
 
-	
-
-	
 
 }
