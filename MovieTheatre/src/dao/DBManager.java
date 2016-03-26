@@ -366,6 +366,40 @@ public class DBManager {
 		}
 	}
 	
+	public int availableSeats(int auditorium, String date, String time, String mID)throws Exception{
+		int avail_seat = 0;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			stmt = con.prepareStatement("SELECT * FROM ticket WHERE show_date = ? AND show_time = ? AND movie_ID = ? AND audi_num = ?");
+			stmt.setString(1, date);
+			stmt.setString(2, time);
+			stmt.setString(3, mID);
+			stmt.setInt(4, auditorium);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
+
+				
+				int isSold = rs.getInt("isSold");
+				rs.getString("show_time");
+				rs.getString("show_date");
+				rs.getString("movie_ID");
+				rs.getInt("audi_num");
+				
+				if (isSold == 0) {
+					avail_seat = avail_seat+1;
+				}
+			}
+			return avail_seat;
+		}
+		finally{
+			close(stmt,rs);
+		}	
+		
+	}  
+  
 	public static void printLeastOrMostSoldMovie(List<String> movies){
 		for (String m:movies){
 			printMovieID(m);
@@ -375,7 +409,8 @@ public class DBManager {
 	public static void printMovieID(String m){
 		System.out.println(m);
 	}
-	
+
+   
 
 	public void quit(){
 	    try {
@@ -394,8 +429,11 @@ public class DBManager {
 
 		DBManager dao = new DBManager();
 
-		DBManager.printMovies(dao.displayByGenre("family"));
+		//DBManager.printMovies(dao.displayByGenre("family"));
 		//DBManager.printMovies(dao.getAllMovie());	
+		//System.out.println("Available seats: " + dao.availableSeats(2, "3/22/2016", "15:45", "104112"));
+		//System.out.println("Available seats: " + dao.availableSeats(8, "1/23/2016", "9:20", "098344"));
+		//System.out.println("Available seats: " + dao.availableSeats(1, "1/23/2016", "9:20", "098344"));		
 		
 	}
 
