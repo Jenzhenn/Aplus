@@ -61,6 +61,7 @@ public class EmployeeListPanel extends JPanel {
 		}
 		
 		
+		
 		deleteTextField = new JTextField();
 		top.add(deleteTextField);
 		deleteTextField.setColumns(10);
@@ -70,9 +71,20 @@ public class EmployeeListPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					db.deleteEmployee(deleteTextField.getText());
+		            JOptionPane.showMessageDialog(top, "Successful Delete");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(top, "Invalid SQL Operation");
+					JOptionPane.showMessageDialog(top, "Invalid EID");
+				}
+				
+				List<Employee> employees;
+				try {
+				    employees = db.getAllEmployee();
+					EmployeeListModel eModel = new EmployeeListModel(employees);
+					tableEmployee.setModel(eModel);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});

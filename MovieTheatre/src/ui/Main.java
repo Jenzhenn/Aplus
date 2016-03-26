@@ -11,11 +11,15 @@ import javax.swing.border.LineBorder;
 import dao.DBManager;
 
 import java.awt.Color;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main extends JFrame {
 
@@ -50,6 +54,14 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+	    addWindowListener(new WindowAdapter() {
+	        public void windowClosing(WindowEvent e) {
+	           db.quit();
+	           System.out.println("db quit");
+	           System.exit(0);
+	        }
+	      });
+		
 		db = new DBManager();
 		
 		JButton btnCustomer = new JButton("Customer");
@@ -81,5 +93,8 @@ public class Main extends JFrame {
 		});
 		btnManager.setBounds(157, 181, 138, 60);
 		contentPane.add(btnManager);
+
 	}
+	
+
 }

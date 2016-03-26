@@ -18,10 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JSplitPane;
+
+
 
 
 import java.awt.FlowLayout;
@@ -52,6 +56,14 @@ public class ManagerFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[][][][][][][][][][][][grow]", "[][][][][][][][][grow]"));
 
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+               db.quit();
+               System.out.println("db quit");
+               System.exit(0);
+            }
+          });		
+		
 		JPanel mainPanel = new JPanel();
 		contentPane.add(mainPanel, "cell 0 0 12 9,grow");
 		mainPanel.setLayout(new CardLayout(0, 0));
@@ -69,8 +81,6 @@ public class ManagerFrame extends JFrame {
 		JButton button = new JButton("Login");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-				cardLayout.show(mainPanel, "Manager view");
 				try {
 					String[] eidEnamePair =db.managerLogin(textEIDField.getText());
 					eid = eidEnamePair[0];
@@ -79,9 +89,11 @@ public class ManagerFrame extends JFrame {
 					panelLeft.add(lblEid, "cell 0 9,aligny bottom");
 					JLabel lblName = new JLabel("Name:"+name);
 					panelLeft.add(lblName, "cell 0 10,aligny bottom");
+					CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+					cardLayout.show(mainPanel, "Manager view");
 				} catch (SQLException error) {
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(mainPanel, "Invalid SQL Operation");
+					JOptionPane.showMessageDialog(mainPanel, "Login Fail");
 				}				
 			}
 		});
@@ -145,14 +157,15 @@ public class ManagerFrame extends JFrame {
 		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
 		
-		//JPanel panelEmployeeList = new EmployeeListPanel(db);
-		//panelRight.add(panelEmployeeList, "Employee List");
+		JPanel panelEmployeeList = new EmployeeListPanel(db);
+		panelRight.add(panelEmployeeList, "Employee List");
 		
 		JPanel panelSellTicket = new TicketPanel();
 		panelRight.add(panelSellTicket, "Sell Tickets");
 		
 		JPanel panelTicketSold = new MostLeastSoldPanel();
 		panelRight.add(panelTicketSold, "Tickets Sold");
+		pack();
 	}
 
 

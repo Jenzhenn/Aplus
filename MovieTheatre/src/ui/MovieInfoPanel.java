@@ -50,40 +50,35 @@ public class MovieInfoPanel extends JPanel {
 		
 
 		
-		/*		selectGenreDropDown.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			//select by genre
-			
-			String genre = (String) selectGenreDropDown.getSelectedItem();
-			List<Movie> movies = null;
-			
-			if(genre != "All") {
-				try {
-					movies = dbManager.displayByGenre(genre);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}else {
-				try {
-					movies = dbManager.getAllMovie();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			
-			MovieTableModel movieModel = new MovieTableModel(movies);
-			table.setModel(movieModel);
-
-		}
-	}); */
-		
 		JComboBox genreDropDown = new JComboBox();
 		genreDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//select by genre
+				
+				String genre = (String) genreDropDown.getSelectedItem();
+				List<Movie> movies = null;
+				
+				if(genre != "All") {
+					try {
+						movies = dbManager.displayByGenre(genre);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					try {
+						movies = dbManager.getAllMovie();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				MovieTableModel movieModel = new MovieTableModel(movies);
+				table.setModel(movieModel);
 			}
 		});
+		
 		genreDropDown.setModel(new DefaultComboBoxModel(new String[] {"All", "Action", "Comedy", "Family", "Romance", "Violence"}));
 		displayMoviePanel.add(genreDropDown);
 		

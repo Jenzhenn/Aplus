@@ -26,7 +26,7 @@ public class DBManager {
 		//connect to database
 		try {
 			con = DriverManager.getConnection(
-					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_s2u9a", "a33425125");
+					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_n2v8", "a36847127");
 		} catch (SQLException e) {
 			System.out.println("Connection failed");
 			e.printStackTrace();
@@ -71,8 +71,6 @@ public class DBManager {
 	}
 	
 	public Boolean checkManager(String eid) throws SQLException{
-		//todo - need test
-		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Boolean result = false;
@@ -82,7 +80,7 @@ public class DBManager {
 			stmt.setString(1, eid);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				result = rs.getBoolean(0);
+				result = rs.getBoolean(1);
 				System.out.println(result);
 			}
 		} finally{
@@ -125,7 +123,7 @@ public class DBManager {
 		
 		try{
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("");
+			rs = stmt.executeQuery("select * from employee");
 			while(rs.next()){
 				Employee employee = convertRowToEmployee(rs);
 				employeeList.add(employee);
@@ -308,7 +306,15 @@ public class DBManager {
 		System.out.println(m);
 	}
 	
-	
+
+	public void quit(){
+	    try {
+            con.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
 
 	private void close(Statement stmt, ResultSet rs) throws SQLException {
 		close(null, stmt, rs);		

@@ -19,6 +19,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class CustomerFrame extends JFrame {
 
@@ -44,6 +46,14 @@ public class CustomerFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+               db.quit();
+               System.out.println("db quit");
+               System.exit(0);
+            }
+          });		
 		
 		JPanel mainPanel = new JPanel();
 		contentPane.add(mainPanel, "cell 0 0,grow");
@@ -97,6 +107,7 @@ public class CustomerFrame extends JFrame {
 		
 		JPanel panelSellTicket = new TicketPanel();
 		panelRight.add(panelSellTicket, "Sell Tickets");
+		pack();
 	}
 
 }

@@ -10,12 +10,18 @@ import javax.swing.border.EmptyBorder;
 import dao.DBManager;
 
 import java.awt.CardLayout;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
@@ -39,12 +45,19 @@ public class CashierFrame extends JFrame {
 		setTitle("Cashier View");
 		getContentPane().setLayout(new MigLayout("", "[][][][][][][][][][][][grow]", "[][][][][][][][][grow]"));
 		
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+               db.quit();
+               System.out.println("db quit");
+               System.exit(0);
+            }
+          });		
+		
 		JPanel mainPanel = new JPanel();
 		getContentPane().add(mainPanel, "cell 0 0 12 9,grow");
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
 		JPanel panelLogin = new JPanel();
-		//mainPanel.add(panelLogin, "name_171831861873876");
 		
 		JLabel lblEnterEid = new JLabel("Enter EID:");
 		panelLogin.add(lblEnterEid);
@@ -75,7 +88,6 @@ public class CashierFrame extends JFrame {
 		panelLogin.add(btnNewButton);
 		
 		JPanel panelCashier = new JPanel();
-		//mainPanel.add(panelCashier, "name_171853031906081");
 		
 		mainPanel.add(panelLogin, "Login");
 		mainPanel.add(panelCashier, "Cashier view");
@@ -120,6 +132,6 @@ public class CashierFrame extends JFrame {
 		JPanel panelSellTicket = new TicketPanel();
 		panelRight.add(panelMovieInfo,"Movie Info");
 		panelRight.add(panelSellTicket, "Sell Tickets");
-		
+		pack();
 	}
 }
