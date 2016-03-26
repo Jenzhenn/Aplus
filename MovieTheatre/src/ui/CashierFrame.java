@@ -116,7 +116,7 @@ public class CashierFrame extends JFrame {
 		splitPane.setRightComponent(panelRight);
 		panelRight.setLayout(new CardLayout(0, 0));
 		
-		JPanel panelMovieInfo = new MovieInfoPanel();
+		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		JPanel panelSellTicket = new TicketPanel();
 		panelRight.add(panelMovieInfo,"Movie Info");
 		panelRight.add(panelSellTicket, "Sell Tickets");

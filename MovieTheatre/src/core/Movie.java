@@ -1,10 +1,10 @@
 package core;
 
-import java.util.List;
 import java.util.Set;
 
 
 public class Movie {
+	private String title;
 	private String genre;
 	private String language;
 	private int length;
@@ -13,8 +13,9 @@ public class Movie {
 	private Set<String> directorList;
 	private Set<String> actorList;
 	
-	public Movie(String genre, String language, int length, String movieID, String rating, Set<String> directorList, Set<String> actorList){
+	public Movie(String title, String genre, String language, int length, String movieID, String rating, Set<String> directorList, Set<String> actorList){
 		super();
+		this.title = title;
 		this.genre = genre;
 		this.language = language;
 		this.length = length;
@@ -24,7 +25,7 @@ public class Movie {
 		this.actorList = actorList;
 	}
 	public String printMovie(){
-		return "MID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating + "\nDirector(s): " + directorList + "\nActor(s): " + actorList;
+		return "Title:" + title + "\nMID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating + "\nDirector(s): " + directorList + "\nActor(s): " + actorList;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -70,6 +71,21 @@ public class Movie {
 	public void mergeActor(Movie sameMovie) {
 		actorList.addAll(sameMovie.getActor());
 		
+	}
+	public Object getTitle() {
+		return title;
+	}
+	public Object getLanguage() {
+		return language;
+	}
+	public Object getLength() {
+		return length;
+	}
+	public Object getRating() {
+		return rating;
+	}
+	public Object getMovieID() {
+		return movieID;
 	}
 }
 

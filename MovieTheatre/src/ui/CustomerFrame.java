@@ -79,13 +79,20 @@ public class CustomerFrame extends JFrame {
 		panelLeft.add(btnBuyTicket, "cell 0 1,alignx left,aligny top");
 		
 		btnMemPoint = new JButton("Membership Point");
-		panelLeft.add(btnMemPoint, "cell 0 2");
+		panelLeft.add(btnMemPoint, "cell 0 3");
 		
 		panelRight = new JPanel();
 		splitPane.setRightComponent(panelRight);
 		panelRight.setLayout(new CardLayout(0, 0));
+
+		btnMemPoint = new JButton("See Ticket");
+		btnMemPoint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panelLeft.add(btnMemPoint, "cell 0 2");
 		
-		JPanel panelMovieInfo = new MovieInfoPanel();
+		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
 		
 		JPanel panelSellTicket = new TicketPanel();

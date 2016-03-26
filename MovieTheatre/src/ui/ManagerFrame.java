@@ -23,13 +23,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JSplitPane;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
 public class ManagerFrame extends JFrame {
 
@@ -41,6 +36,7 @@ public class ManagerFrame extends JFrame {
 	
 	private JPanel panelLeft;
 	private JPanel panelRight;
+	
 	/**
 
 	/**
@@ -48,7 +44,7 @@ public class ManagerFrame extends JFrame {
 	 */
 	public ManagerFrame(DBManager db) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 506, 359);
+		setBounds(100, 100, 526, 417);
 		setTitle("Manager View");
 		this.db = db;
 		contentPane = new JPanel();
@@ -76,7 +72,7 @@ public class ManagerFrame extends JFrame {
 				CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
 				cardLayout.show(mainPanel, "Manager view");
 				try {
-					String[] eidEnamePair =db.getEIDEname(textEIDField.getText());
+					String[] eidEnamePair =db.managerLogin(textEIDField.getText());
 					eid = eidEnamePair[0];
 					name = eidEnamePair[1];
 					JLabel lblEid = new JLabel("EID: "+eid);
@@ -109,24 +105,55 @@ public class ManagerFrame extends JFrame {
 				cardLayout.show(panelRight, "Movie Info");
 			}
 		});
-		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][][]"));
+		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][][][]"));
 		panelLeft.add(btnMovieInfo, "cell 0 0,alignx left,aligny top");
 		
+		JButton btnBuyTickets = new JButton("Sell Ticket");
+		btnBuyTickets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+				cardLayout.show(panelRight, "Sell Tickets");
+			}
+		});
+		panelLeft.add(btnBuyTickets, "cell 0 1");
+		
 		JButton btnSetMovie = new JButton("Set Movie");
-		panelLeft.add(btnSetMovie, "cell 0 1");
+		panelLeft.add(btnSetMovie, "cell 0 2");
 		
 		JButton btnEmployeeList = new JButton("Employee List");
-		panelLeft.add(btnEmployeeList, "cell 0 2");
+		btnEmployeeList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+				cardLayout.show(panelRight, "Employee List");
+			}
+		});
+		panelLeft.add(btnEmployeeList, "cell 0 3");
 		
 		JButton btnTicketsSold = new JButton("Tickets Sold");
-		panelLeft.add(btnTicketsSold, "cell 0 3");
+		btnTicketsSold.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+				cardLayout.show(panelRight, "Tickets Sold");
+			}
+		});
+		panelLeft.add(btnTicketsSold, "cell 0 4");
 		
 		panelRight = new JPanel();
 		splitPane.setRightComponent(panelRight);
 		panelRight.setLayout(new CardLayout(0, 0));
 		
-		JPanel panelMovieInfo = new MovieInfoPanel();
+		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
+		
+		//JPanel panelEmployeeList = new EmployeeListPanel(db);
+		//panelRight.add(panelEmployeeList, "Employee List");
+		
+		JPanel panelSellTicket = new TicketPanel();
+		panelRight.add(panelSellTicket, "Sell Tickets");
+		
+		JPanel panelTicketSold = new MostLeastSoldPanel();
+		panelRight.add(panelTicketSold, "Tickets Sold");
 	}
+
 
 }
