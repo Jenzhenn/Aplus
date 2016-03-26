@@ -163,7 +163,7 @@ public class ManagerFrame extends JFrame {
 		JPanel panelSellTicket = new TicketPanel();
 		panelRight.add(panelSellTicket, "Sell Tickets");
 		
-		JPanel panelTicketSold = new MostLeastSoldPanel();
+		JPanel panelTicketSold = new MostLeastSoldPanel(db);
 		panelRight.add(panelTicketSold, "Tickets Sold");
 		pack();
 	}

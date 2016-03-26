@@ -91,7 +91,67 @@ public class DBManager {
 		return result;
 	}
 	
-	
+    public Boolean checkCashier(String eid) throws SQLException{
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Boolean result = false;
+        
+        try {
+            stmt = con.prepareStatement("select count(*) from cashier where eid like ?");
+            stmt.setString(1, eid);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                result = rs.getBoolean(1);
+                System.out.println(result);
+            }
+        } finally{
+            close(stmt,rs);
+        }
+
+        
+        return result;
+    }
+
+    public Integer cashierAddHours(Integer hours, String eid) throws SQLException{
+        PreparedStatement current = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Integer currentHours = 0;
+        
+        try{
+            current = con.prepareStatement("select hours from cashier where eid like ?");
+            current.setString(1,eid);
+            rs = current.executeQuery();
+            while(rs.next()){
+                currentHours = rs.getInt(1);
+                System.out.println(currentHours);
+            }
+        } finally{
+            close(current,rs);
+        }
+        
+        hours = hours+currentHours;
+        
+        try{
+            stmt = con.prepareStatement("update cashier set hours=? where eid like ?");
+            stmt.setInt(1, hours);
+            stmt.setString(2, eid);
+            rs = stmt.executeQuery();
+            return hours;
+        } finally{
+            close(stmt,rs);
+        }
+        
+    }
+    public String[] cashierLogin(String eid) throws SQLException{
+        if(checkCashier(eid)){
+            String[] eidEnamePair =getEIDEname(eid);
+            return eidEnamePair;
+        } else {
+            throw new SQLException();
+        }
+        
+    }    
 	
 	public String[] managerLogin(String eid) throws SQLException{
 		if(checkManager(eid)){
@@ -243,28 +303,34 @@ public class DBManager {
 	}
 	
 	public static void printMovies(List<Movie> movies){
-		for (Movie m:movies){
+		if(movies.isEmpty()) System.out.println("empty movie");
+	    
+	    for (Movie m:movies){
 			System.out.println(m.printMovie());
 		}
 	}
 	
 //////Ticket
-	public List<String> seeMostSoldMovie() throws Exception{
+	public List<Movie> seeMostSoldMovie() throws Exception{
 		// sql query find the max:
 		// get all tickets group by movieID
 		// compute avg for each group: sumofisSold/countOfTicket
 		//return the movieID of the most sold movie
-		List<String> movieList = new ArrayList<String>();
+	    List<Movie> movieList = new ArrayList<Movie>();
 		
 		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("max");
+            rs = stmt.executeQuery("Select movie_ID, title, avg(isSold) from ticket natural left join movie group by movie_ID, title having avg(isSold) = (select MAX(avg(isSold)) from ticket natural left join movie group by movie_ID, title)");
 		while(rs.next()){
 			String movieID = rs.getString("movie_ID");
-			movieList.add(movieID);
+			String title = rs.getString("title");
+			Double avgSold = rs.getDouble(3);
+			
+			Movie tempMovie = new Movie(movieID,title,avgSold);
+			movieList.add(tempMovie);
 		}
 		
 		return movieList;
@@ -274,19 +340,23 @@ public class DBManager {
 		}
 	}
 	
-	public List<String> seeLeastSoldMovie() throws Exception{
+	public List<Movie> seeLeastSoldMovie() throws Exception{
 		//return the movieID of the least sold movie
-		List<String> movieList = new ArrayList<String>();
+	    List<Movie> movieList = new ArrayList<Movie>();
 		
 		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("max");
+            rs = stmt.executeQuery("Select movie_ID, title, avg(isSold) from ticket natural left join movie group by movie_ID, title having avg(isSold) = (select MIN(avg(isSold)) from ticket natural left join movie group by movie_ID, title)");
 		while(rs.next()){
-			String movieID = rs.getString("movie_ID");
-			movieList.add(movieID);
+            String movieID = rs.getString("movie_ID");
+            String title = rs.getString("title");
+            Double avgSold = rs.getDouble(3);
+            
+            Movie tempMovie = new Movie(movieID,title,avgSold);
+            movieList.add(tempMovie);
 		}
 		
 		return movieList;
@@ -324,8 +394,8 @@ public class DBManager {
 
 		DBManager dao = new DBManager();
 
-		//MovieDAO.printMovies(dao.displayByGenre("family"));
-		DBManager.printMovies(dao.getAllMovie());	
+		DBManager.printMovies(dao.displayByGenre("family"));
+		//DBManager.printMovies(dao.getAllMovie());	
 		
 	}
 

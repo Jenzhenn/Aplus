@@ -6,7 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
@@ -18,6 +20,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JButton;
 
 public class MovieInfoPanel extends JPanel {
@@ -50,36 +53,10 @@ public class MovieInfoPanel extends JPanel {
 		
 
 		
-		JComboBox genreDropDown = new JComboBox();
-		genreDropDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//select by genre
-				
-				String genre = (String) genreDropDown.getSelectedItem();
-				List<Movie> movies = null;
-				
-				if(genre != "All") {
-					try {
-						movies = dbManager.displayByGenre(genre);
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}else {
-					try {
-						movies = dbManager.getAllMovie();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-				MovieTableModel movieModel = new MovieTableModel(movies);
-				table.setModel(movieModel);
-			}
-		});
+		JComboBox<String> genreDropDown = new JComboBox<String>();
+
 		
-		genreDropDown.setModel(new DefaultComboBoxModel(new String[] {"All", "Action", "Comedy", "Family", "Romance", "Violence"}));
+		genreDropDown.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Action", "Comedy", "Family", "Romance", "Violence"}));
 		displayMoviePanel.add(genreDropDown);
 		
 		JScrollPane tablePanel = new JScrollPane();
@@ -88,7 +65,52 @@ public class MovieInfoPanel extends JPanel {
 		
 		table = new JTable();
 		tablePanel.setViewportView(table);
+	    table.setRowSelectionAllowed(false);
+	    table.setColumnSelectionAllowed(false);
+	    table.setCellSelectionEnabled(true);
+        try {
+            List<Movie> movies = null;
+            movies = dbManager.getAllMovie();
+            MovieTableModel movieModel = new MovieTableModel(movies);
+            table.setModel(movieModel);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }	    
+	    
+        genreDropDown.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //select by genre
+                
+                String genre = (String) genreDropDown.getSelectedItem();
+                List<Movie> movies = null;
+                
+                if(genre != "All") {
+                    try {
+                        System.out.println(genre);
+                        movies = dbManager.displayByGenre(genre.toLowerCase());
+                        DBManager.printMovies(movies);
+                    } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }else {
+                    try {
+                        movies = dbManager.getAllMovie();
+                    } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }
+                
+                MovieTableModel movieModel = new MovieTableModel(movies);
+                table.setModel(movieModel);
+            }
+        });	    
 		
+		JButton btnAllMovie = new JButton("All Movie");
+		add(btnAllMovie, "cell 0 0");
+	    
 		JButton btnUpcoming = new JButton("Upcoming");
 		add(btnUpcoming, "cell 0 0");
 		

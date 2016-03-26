@@ -50,6 +50,9 @@ public class EmployeeListPanel extends JPanel {
 		
 		tableEmployee = new JTable();
 		scrollPane.setViewportView(tableEmployee);
+		tableEmployee.setRowSelectionAllowed(false);
+		tableEmployee.setCellSelectionEnabled(true);
+		
 		
 		try {
 			List<Employee> employees = db.getAllEmployee();

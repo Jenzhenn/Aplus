@@ -35,6 +35,7 @@ public class CashierFrame extends JFrame {
 	
 	private JPanel panelLeft;
 	private JPanel panelRight;
+	private JTextField hoursTextField;
 	/**
 	 * Create the frame.
 	 */
@@ -69,19 +70,19 @@ public class CashierFrame extends JFrame {
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-				cardLayout.show(mainPanel, "Cashier view");
 				try {
-					String[] eidEnamePair =db.getEIDEname(textEIDField.getText());
+				    String[] eidEnamePair =db.cashierLogin(textEIDField.getText());
 					eid = eidEnamePair[0];
 					name = eidEnamePair[1];
 					JLabel lblEid = new JLabel("EID: "+eid);
 					panelLeft.add(lblEid, "cell 0 9,aligny bottom");
 					JLabel lblName = new JLabel("Name:"+name);
 					panelLeft.add(lblName, "cell 0 10,aligny bottom");
+		            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+		            cardLayout.show(mainPanel, "Cashier view");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(mainPanel, "Invalid SQL Operation");
+					JOptionPane.showMessageDialog(mainPanel, "Login Fail");
 				}
 			}
 		});
@@ -91,15 +92,15 @@ public class CashierFrame extends JFrame {
 		
 		mainPanel.add(panelLogin, "Login");
 		mainPanel.add(panelCashier, "Cashier view");
-		panelCashier.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		panelCashier.setLayout(new MigLayout("", "[50px,grow][][][][][][][]", "[41px,grow][][][][][][]"));
 		
 		JSplitPane splitPane = new JSplitPane();
-		panelCashier.add(splitPane, "cell 0 0,grow");
+		panelCashier.add(splitPane,  "cell 0 0 8 7,grow");
 		
 		//Left Panel Contain Button and eid,ename (created in Login ActionListener)
 		panelLeft = new JPanel();
 		splitPane.setLeftComponent(panelLeft);
-		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][]"));
+		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][][][]"));
 		
 		JButton btnMovieInfo = new JButton("Movie Info");
 		btnMovieInfo.addActionListener(new ActionListener() {
@@ -120,8 +121,15 @@ public class CashierFrame extends JFrame {
 		panelLeft.add(btnSellTicket, "cell 0 1");
 		
 		JButton btnAddHours = new JButton("Add Hours");
+		btnAddHours.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+	           CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+	           cardLayout.show(panelRight, "Add Hours");
+		    }
+		});
 		panelLeft.add(btnAddHours, "cell 0 2");
 		
+
 
 		//Right Panel should show correct information correspond to the pushed button
 		panelRight = new JPanel();
@@ -132,6 +140,29 @@ public class CashierFrame extends JFrame {
 		JPanel panelSellTicket = new TicketPanel();
 		panelRight.add(panelMovieInfo,"Movie Info");
 		panelRight.add(panelSellTicket, "Sell Tickets");
+		JPanel addHours = new JPanel();
+		addHours.setLayout(new MigLayout("", "[145px,grow]", "[10px][][25px,grow]"));
+		panelRight.add(addHours,"Add Hours");
+		
+		JLabel lblHoursWorked = new JLabel("Hours Worked: ");
+		addHours.add(lblHoursWorked, "flowx,cell 0 1");
+		
+		hoursTextField = new JTextField();
+		addHours.add(hoursTextField, "cell 0 1");
+		hoursTextField.setColumns(10);
+		
+		JButton btnAdd = new JButton("ADD");
+		btnAdd.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try{
+		            Integer totalHours = db.cashierAddHours(Integer.parseUnsignedInt(hoursTextField.getText()), eid);
+		            JOptionPane.showMessageDialog(mainPanel, "Add successfully, Your total hours are: "+totalHours.toString());
+		        } catch (SQLException error){
+		            JOptionPane.showMessageDialog(mainPanel, "Warning: You exceed the maximun work hours\nPlease contact your manager");
+		        }
+		    }
+		});
+		addHours.add(btnAdd, "cell 0 1");
 		pack();
 	}
 }

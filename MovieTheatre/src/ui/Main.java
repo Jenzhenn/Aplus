@@ -67,7 +67,7 @@ public class Main extends JFrame {
 		JButton btnCustomer = new JButton("Customer");
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new CustomerFrame().setVisible(true);
+				new CustomerFrame(db).setVisible(true);
 				dispose();
 			}
 		});

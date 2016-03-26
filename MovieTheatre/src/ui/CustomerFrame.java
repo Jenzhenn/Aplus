@@ -38,14 +38,14 @@ public class CustomerFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CustomerFrame() {
+	public CustomerFrame(DBManager db) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 794, 567);
 		setTitle("Customer View");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		contentPane.setLayout(new MigLayout("", "[][][][][][][][][][][][grow]", "[][][][][][][][][grow]"));
 		
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -56,19 +56,19 @@ public class CustomerFrame extends JFrame {
           });		
 		
 		JPanel mainPanel = new JPanel();
-		contentPane.add(mainPanel, "cell 0 0,grow");
+		contentPane.add(mainPanel,"cell 0 0 12 9,grow");
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
 		JPanel panelCustomer = new JPanel();
 		mainPanel.add(panelCustomer, "Customer View");
-		panelCustomer.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		panelCustomer.setLayout(new MigLayout("", "[50px,grow][][][][][][][]", "[41px,grow][][][][][][]"));
 		
 		JSplitPane splitPane = new JSplitPane();
-		panelCustomer.add(splitPane, "cell 0 0,grow");
+		panelCustomer.add(splitPane, "cell 0 0 8 7,grow");
 		
 		panelLeft = new JPanel();
 		splitPane.setLeftComponent(panelLeft);
-		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][]"));
+		panelLeft.setLayout(new MigLayout("wrap 1", "[grow,fill]", "[][][][][]"));
 		
 		btnMovieInfo = new JButton("Movie Info");
 		btnMovieInfo.addActionListener(new ActionListener() {

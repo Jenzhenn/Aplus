@@ -12,6 +12,7 @@ public class Movie {
 	private String rating;
 	private Set<String> directorList;
 	private Set<String> actorList;
+	private double avgSold;
 	
 	public Movie(String title, String genre, String language, int length, String movieID, String rating, Set<String> directorList, Set<String> actorList){
 		super();
@@ -24,6 +25,17 @@ public class Movie {
 		this.directorList = directorList;
 		this.actorList = actorList;
 	}
+	
+	public Movie(String MID, String title, double avgSold){
+	    movieID = MID;
+	    this.title = title;
+	    this.avgSold = avgSold*100;
+	}
+	
+	public double getAvgSold(){
+	    return avgSold;
+	}
+	
 	public String printMovie(){
 		return "Title:" + title + "\nMID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating + "\nDirector(s): " + directorList + "\nActor(s): " + actorList;
 	}
