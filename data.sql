@@ -1,3 +1,4 @@
+
 --customer
 insert into customer
 values('John Snow', '7782689039');
@@ -355,5 +356,4 @@ values('11034','0002');
 
 insert into machine_sold
 values('01098','0012');
-
 

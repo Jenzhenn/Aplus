@@ -1,3 +1,4 @@
+
 drop table cashier_sold;
 drop table machine_sold;
 drop table online_sold;
@@ -99,14 +100,17 @@ create table cashier
 hourly_rate integer not null,
 hours integer not null,
 primary key (eid),
-foreign key (eid) references employee on delete cascade on update cascade,
+Constraint fk_cash_employee 
+    foreign key (eid) 
+    references employee(eid) 
+    on delete cascade,
 check (hours <=36));
 
 create table manager
 (eid char(8) not null,
 contractid integer not null,
 primary key (eid),
-foreign key (eid) references employee on delete no action);
+CONSTRAINT fk_man_employee foreign key (eid) references employee(eid));
 
 create table ticket_machine
 (machineID char(4) not null,
@@ -162,7 +166,6 @@ machineID char(4) not null,
 primary key(ticket_num),
 foreign key(ticket_num) references ticket,
 foreign key(machineID) references ticket_machine);
-
 
 
 
