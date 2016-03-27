@@ -84,6 +84,15 @@ values('Anne Hathaway','F');
 insert into actor
 values('Leonardo DiCaprio','M');
 
+insert into actor
+values('Katarina Morzilt','F');
+
+insert into actor
+values('Akatsuki Mabuji','F');
+
+insert into actor
+values('Holmes Plate','M');
+
 --director
 insert into director
 values('Atom Egoyan','M');
@@ -103,6 +112,15 @@ values('Jonathan Demme','M');
 insert into director
 values('Alejandro Inarritu','M');
 
+insert into director
+values('Larry Lo','F');
+
+insert into director
+values('Andy Jodmoris','M');
+
+insert into director
+values('Poet Ghanrol','M');
+
 --performed_by
 insert into performed_by
 values('Ian Holm', '1997', '104112');
@@ -118,6 +136,15 @@ values('Anne Hathaway', '2008', '344201');
 
 insert into performed_by
 values('Leonardo DiCaprio', '2015', '120002');
+
+insert into performed_by
+values('Katarina Morzilt', '2015', '540222');
+
+insert into performed_by
+values('Akatsuki Mabuji', '2011', '760232');
+
+insert into performed_by
+values('Holmes Plate', '2013', '943322');
 
 --directed_by
 insert into directed_by
@@ -137,6 +164,15 @@ values('Jonathan Demme', '2008', '344201');
 
 insert into directed_by
 values('Alejandro Inarritu', '2015', '120002');
+
+insert into directed_by
+values('Katarina Morzilt', '2015', '540222');
+
+insert into directed_by
+values('Andy Jodmoris', '2011', '760232');
+
+insert into directed_by
+values('Poet Ghanrol', '2013', '943322');
 
 --Auditorium
 insert into Auditorium
