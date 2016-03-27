@@ -45,6 +45,30 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+////// Customer
+    
+    public Integer getPoint(String cphone) throws SQLException{
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	Integer point = null;
+    	
+    	try{
+    		stmt = con.prepareStatement("SELECT cphone,reward_point from member where cphone like ?");
+    		stmt.setString(1,cphone);
+    		rs = stmt.executeQuery();
+    		while(rs.next()){
+    			point = rs.getInt("reward_point");
+
+    		}
+    	} finally {
+			close(stmt,rs);
+    	}
+    	if(point == null){
+    		SQLException e = new SQLException();
+    		throw e;
+    		}
+    	return point;
+    }
 
 ////// Employee	
 	public String[] getEIDEname(String eid) throws SQLException{
@@ -398,19 +422,79 @@ public class DBManager {
 			close(stmt,rs);
 		}	
 		
-	}  
-  
-	public static void printLeastOrMostSoldMovie(List<String> movies){
-		for (String m:movies){
-			printMovieID(m);
-		}
 	}
 	
-	public static void printMovieID(String m){
-		System.out.println(m);
+    //////For purchasing tickets
+	public List<String> showAvailableTime(String movie, String date) throws Exception{
+		// show available dates for the selected movie
+	    List<String> timeList = new ArrayList<String>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			stmt = con.prepareStatement("SELECT show_time FROM ticket natural left join movie WHERE title = ? AND show_date = ? AND isSold = 0 GROUP BY show_time");
+			stmt.setString(1, movie);
+			stmt.setString(2, date);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				
+				String time = rs.getString("show_time");
+				timeList.add(time);
+	
+			}
+			return timeList;
+		} finally{
+			close(stmt,rs);
+		}	
+		
 	}
 
-   
+	public List<String> showAvailableDate(String movie) throws Exception{
+		// show available dates for the selected movie
+	    List<String> dateList = new ArrayList<String>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			stmt = con.prepareStatement("SELECT show_date FROM ticket natural left join movie WHERE title = ? AND isSold = 0 GROUP BY show_date");
+			stmt.setString(1, movie);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				
+				String date = rs.getString("show_date");
+				dateList.add(date);
+	
+			}
+			return dateList;
+		} finally{
+			close(stmt,rs);
+		}	
+		
+	}
+
+	public List<String> showPlayingMovie() throws Exception{
+		// get all the movie titles from database
+	    List<String> titleList = new ArrayList<String>();
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT title, movie_ID FROM ticket natural left join movie WHERE isSold = 0 GROUP BY movie_ID, title");
+		while(rs.next()){
+            String title = rs.getString("title");
+            titleList.add(title);
+		}
+		return titleList;
+		}
+		finally{
+			close(stmt,rs);
+		}
+	}
+  
 
 	public void quit(){
 	    try {
@@ -433,7 +517,16 @@ public class DBManager {
 		//DBManager.printMovies(dao.getAllMovie());	
 		//System.out.println("Available seats: " + dao.availableSeats(2, "3/22/2016", "15:45", "104112"));
 		//System.out.println("Available seats: " + dao.availableSeats(8, "1/23/2016", "9:20", "098344"));
-		//System.out.println("Available seats: " + dao.availableSeats(1, "1/23/2016", "9:20", "098344"));		
+		//System.out.println("Available seats: " + dao.availableSeats(1, "1/23/2016", "9:20", "098344"));
+
+		List<String> movies = dao.showPlayingMovie();
+		for(String title:movies){
+			System.out.println(title);
+		}
+		List<String> times = dao.showAvailableTime("Mamamia", "1/23/2016");
+		for(String time:times){
+			System.out.println(time);
+		}
 		
 	}
 

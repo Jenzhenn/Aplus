@@ -160,7 +160,7 @@ public class ManagerFrame extends JFrame {
 		JPanel panelEmployeeList = new EmployeeListPanel(db);
 		panelRight.add(panelEmployeeList, "Employee List");
 		
-		JPanel panelSellTicket = new TicketPanel();
+		JPanel panelSellTicket = new TicketPanel(db);
 		panelRight.add(panelSellTicket, "Sell Tickets");
 		
 		JPanel panelTicketSold = new MostLeastSoldPanel(db);

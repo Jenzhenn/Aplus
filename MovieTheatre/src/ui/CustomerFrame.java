@@ -16,11 +16,14 @@ import java.awt.CardLayout;
 
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CustomerFrame extends JFrame {
 
@@ -89,6 +92,15 @@ public class CustomerFrame extends JFrame {
 		panelLeft.add(btnBuyTicket, "cell 0 1,alignx left,aligny top");
 		
 		btnMemPoint = new JButton("Membership Point");
+		btnMemPoint.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// add a dialog frame
+				new PointFrame(db).setVisible(true);
+				//check is a member
+				
+			}
+		});
 		panelLeft.add(btnMemPoint, "cell 0 3");
 		
 		panelRight = new JPanel();
@@ -105,7 +117,7 @@ public class CustomerFrame extends JFrame {
 		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
 		
-		JPanel panelSellTicket = new TicketPanel();
+		JPanel panelSellTicket = new TicketPanel(db);
 		panelRight.add(panelSellTicket, "Sell Tickets");
 		pack();
 	}

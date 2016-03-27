@@ -22,6 +22,8 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MovieInfoPanel extends JPanel {
 	private JTable table;
@@ -109,6 +111,22 @@ public class MovieInfoPanel extends JPanel {
         });	    
 		
 		JButton btnAllMovie = new JButton("All Movie");
+		btnAllMovie.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+                List<Movie> movies = null;
+                try {
+                    movies = dbManager.getAllMovie();
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                
+                MovieTableModel movieModel = new MovieTableModel(movies);
+                table.setModel(movieModel);
+				
+			}
+		});
 		add(btnAllMovie, "cell 0 0");
 	    
 		JButton btnUpcoming = new JButton("Upcoming");

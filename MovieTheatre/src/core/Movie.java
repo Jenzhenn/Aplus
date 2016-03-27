@@ -39,6 +39,7 @@ public class Movie {
 	public String printMovie(){
 		return "Title:" + title + "\nMID: "+movieID+"\nGenre: "+genre+"\nLength: "+String.valueOf(length)+"\nLanguage: "+language+"\nRating: "+rating + "\nDirector(s): " + directorList + "\nActor(s): " + actorList;
 	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
