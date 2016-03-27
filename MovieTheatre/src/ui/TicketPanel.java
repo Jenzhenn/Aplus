@@ -16,6 +16,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -88,14 +89,17 @@ public class TicketPanel extends JPanel {
 		dateDropDown.removeAllItems();
 		timeDropDown.removeAllItems();
 		
+		
 		//get movie titles
 		try {
 			
 			List<String> movies;
 			movies = db.showPlayingMovie();
+			
 			for(String title:movies){
 				titleDropDown.addItem(title);
 			}
+			
 		}catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

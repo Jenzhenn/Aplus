@@ -142,6 +142,9 @@ values('200','8','0','UAVX');
 insert into Auditorium
 values('300','5','1','NORM');
 
+insert into Auditorium
+values('300','9','0','NORM');
+
 
 --Seat
 insert into Seat
@@ -185,6 +188,18 @@ values('J11', '2');
 
 insert into Seat
 values('J12', '2');
+
+insert into Seat
+values('C09', '8');
+
+insert into Seat
+values('C10', '8');
+
+insert into Seat
+values('C11', '8');
+
+insert into Seat
+values('C11', '9');
 
 
 --employee
@@ -271,6 +286,9 @@ values('15:45','3/22/2016','NORM','5','399920','34432122');
 insert into isPlaying
 values('15:45','3/22/2016','DBOX','2','104112','22234122');
 
+insert into isPlaying
+values('9:20','1/23/2016','NORM','9','120002','22234122');
+
 
 --ticket
 insert into ticket
@@ -314,6 +332,18 @@ values('11456', 'Sashimi Tataki', '6048691038', '12.75', '1', '9:20', '1/23/2016
 
 insert into ticket
 values('11034', 'Sashimi Tataki', '6048691038', '12.75', '1', '9:20', '1/23/2016', 'J12', '8', '098344');
+
+insert into ticket
+values('11035', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C09', '8', '098344');
+
+insert into ticket
+values('11036', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C10', '8', '098344');
+
+insert into ticket
+values('11037', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C11', '8', '098344');
+
+insert into ticket
+values('11038', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C11', '9', '120002');
 
 --online_sold
 
