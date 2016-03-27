@@ -166,7 +166,7 @@ insert into directed_by
 values('Alejandro Inarritu', '2015', '120002');
 
 insert into directed_by
-values('Katarina Morzilt', '2015', '540222');
+values('Larry Lo', '2015', '540222');
 
 insert into directed_by
 values('Andy Jodmoris', '2011', '760232');
