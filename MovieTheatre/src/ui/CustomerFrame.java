@@ -96,8 +96,9 @@ public class CustomerFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// add a dialog frame
-				new PointFrame(db).setVisible(true);
-				//check is a member
+				JFrame pointFrame = new PointFrame(db);
+				pointFrame.setVisible(true);
+	            pointFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				
 			}
 		});

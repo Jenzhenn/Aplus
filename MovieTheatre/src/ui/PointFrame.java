@@ -74,6 +74,7 @@ public class PointFrame extends JFrame {
 				try{
 					Integer point = db.getPoint(textField.getText());
 		            JOptionPane.showMessageDialog(contentPane, "Your total reward points: "+ point.toString());
+		            dispose();
 				}catch (SQLException error) {
 					JOptionPane.showMessageDialog(contentPane, "You are not a member.");
 				}	
