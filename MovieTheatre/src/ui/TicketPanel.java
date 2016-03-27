@@ -84,8 +84,13 @@ public class TicketPanel extends JPanel {
 		JComboBox<String> dateDropDown = new JComboBox<String>();
 		JComboBox<String> timeDropDown = new JComboBox<String>();
 		
+		titleDropDown.removeAllItems();
+		dateDropDown.removeAllItems();
+		timeDropDown.removeAllItems();
+		
 		//get movie titles
 		try {
+			
 			List<String> movies;
 			movies = db.showPlayingMovie();
 			for(String title:movies){
@@ -95,11 +100,12 @@ public class TicketPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		dateDropDown.removeAllItems();
 		
 		titleDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// get dates given selected movie 
+				dateDropDown.removeAllItems();
+				timeDropDown.removeAllItems();			
 
 				try {
 					List<String> dates;
@@ -118,6 +124,7 @@ public class TicketPanel extends JPanel {
 
 		dateDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				timeDropDown.removeAllItems();
 				// get times given selected movie and date
 				try {
 					List<String> times;
