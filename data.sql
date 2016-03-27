@@ -58,6 +58,15 @@ values('Active Coding Life','action','FREN','120','399920','PG13');
 insert into Movie
 values('Ma Nerdy Cody Fam','family','FREN','63','120002','G');
 
+insert into Movie
+values('Upon Awakening','violence','JPN','142','540222','R');
+
+insert into Movie
+values('Mary the Dog','family','JPN','142','760232','PG13');
+
+insert into Movie
+values('Tree House','comedy','CHN','142','943322','G');
+
 
 --actor
 insert into actor
@@ -289,6 +298,21 @@ values('15:45','3/22/2016','DBOX','2','104112','22234122');
 insert into isPlaying
 values('9:20','1/23/2016','NORM','9','120002','22234122');
 
+insert into isPlaying
+values('10:17', '1/23/2016', 'NORM', '9','120002','22234122');
+
+insert into isPlaying
+values('17:02','2/02/2016','NORM','9','540222','22234122');
+
+insert into isPlaying
+values('3:43', '4/12/2016', 'NORM','9','760232','22234122');
+
+insert into isPlaying
+values('12:32', '4/12/2016', 'NORM','9','760232','22234122');
+
+insert into isPlaying
+values('22:30', '1/03/2016', 'NORM','9','943322','22234122');
+
 
 --ticket
 insert into ticket
@@ -344,6 +368,22 @@ values('11037', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C11', '8', '0983
 
 insert into ticket
 values('11038', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C11', '9', '120002');
+
+insert into ticket
+values('11039', NULL, NULL, '10.00', '0', '10:17', '1/23/2016','C11', '9', '120002');
+
+insert into ticket
+values('11040', NULL, NULL, '10.00', '0', '17:02', '2/02/2016','C11', '9', '540222');
+
+insert into ticket
+values('11041', NULL, NULL, '10.00', '0', '3:43', '4/12/2016','C11', '9', '760232');
+
+insert into ticket
+values('11042', NULL, NULL, '10.00', '0', '12:32', '4/12/2016','C11', '9', '760232');
+
+insert into ticket
+values('11043', NULL, NULL, '10.00', '0', '22:30', '1/03/2016','C11', '9', '943322');
+
 
 --online_sold
 
