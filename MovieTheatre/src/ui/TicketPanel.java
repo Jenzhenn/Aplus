@@ -30,6 +30,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JSeparator;
 import java.awt.Color;
+import java.awt.SystemColor;
 
 public class TicketPanel extends JPanel {
 	private DBManager dbManager;
@@ -56,13 +57,11 @@ public class TicketPanel extends JPanel {
 		labelPanel.setLayout(null);
 		
 		JLabel lblPurchasingTicket = new JLabel("Purchasing Ticket: ");
-		lblPurchasingTicket.setBounds(10, 12, 297, 57);
-		lblPurchasingTicket.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblPurchasingTicket.setBounds(10, 12, 342, 57);
+		lblPurchasingTicket.setFont(new Font("Cordia New", Font.BOLD, 30));
 		labelPanel.add(lblPurchasingTicket);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBackground(Color.DARK_GRAY);
-		separator.setForeground(Color.DARK_GRAY);
 		separator.setBounds(10, 67, 430, 1);
 		labelPanel.add(separator);
 		
@@ -72,13 +71,13 @@ public class TicketPanel extends JPanel {
 		selectionPanel.setLayout(null);
 		
 		JPanel titlePanel = new JPanel();
-		titlePanel.setBounds(40, 36, 368, 32);
+		titlePanel.setBounds(40, 36, 302, 32);
 		selectionPanel.add(titlePanel);
 		titlePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel lblSelectTitle = new JLabel("Select movie:");
 		lblSelectTitle.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSelectTitle.setFont(new Font("Bell Gothic Std Light", Font.PLAIN, 18));
+		lblSelectTitle.setFont(new Font("Cordia New", Font.BOLD, 25));
 		titlePanel.add(lblSelectTitle);
 		
 		JComboBox<String> titleDropDown = new JComboBox<String>();
@@ -146,32 +145,33 @@ public class TicketPanel extends JPanel {
 		titlePanel.add(titleDropDown);
 		
 		JPanel datePanel = new JPanel();
-		datePanel.setBounds(40, 78, 368, 32);
+		datePanel.setBounds(40, 78, 302, 32);
 		selectionPanel.add(datePanel);
 		datePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel lblSelectDate = new JLabel("Select date:");
 		lblSelectDate.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSelectDate.setFont(new Font("Bell Gothic Std Light", Font.PLAIN, 18));
+		lblSelectDate.setFont(new Font("Cordia New", Font.BOLD, 25));
 		datePanel.add(lblSelectDate);
 		
 		
 		datePanel.add(dateDropDown);
 		
 		JPanel timePanel = new JPanel();
-		timePanel.setBounds(40, 120, 368, 32);
+		timePanel.setBounds(40, 120, 302, 32);
 		selectionPanel.add(timePanel);
 		timePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel lblSelectTime = new JLabel("Select time:");
 		lblSelectTime.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSelectTime.setFont(new Font("Bell Gothic Std Light", Font.PLAIN, 18));
+		lblSelectTime.setFont(new Font("Cordia New", Font.BOLD, 25));
 		timePanel.add(lblSelectTime);
 		
 		
 		timePanel.add(timeDropDown);
 				
 		JButton searchButton = new JButton("Search");
+		searchButton.setFont(new Font("Cordia New", Font.PLAIN, 18));
 		searchButton.setBounds(353, 189, 87, 23);
 		selectionPanel.add(searchButton);
 

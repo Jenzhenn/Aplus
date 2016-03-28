@@ -85,20 +85,23 @@ public class Movie {
 		actorList.addAll(sameMovie.getActor());
 		
 	}
-	public Object getTitle() {
+	public String getTitle() {
 		return title;
 	}
-	public Object getLanguage() {
+	public String getLanguage() {
 		return language;
 	}
-	public Object getLength() {
+	public int getLength() {
 		return length;
 	}
-	public Object getRating() {
+	public String getRating() {
 		return rating;
 	}
-	public Object getMovieID() {
+	public String getMovieID() {
 		return movieID;
+	}
+	public String getGenre(){
+		return genre;
 	}
 }
 

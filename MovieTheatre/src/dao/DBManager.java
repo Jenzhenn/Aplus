@@ -240,7 +240,7 @@ public class DBManager {
 			
 			try {
 				stmt = con.createStatement();
-				rs = stmt.executeQuery("select * from movie natural left join performed_by natural left join directed_by");
+				rs = stmt.executeQuery("select movie_ID, genre, title, language, length, rating, dname, aname from movie natural left join performed_by natural left join directed_by");
 			while(rs.next()){
 				Movie tempMovie = convertRowToMovie(rs);
 				if(movieList.contains(tempMovie)){
@@ -266,7 +266,7 @@ public class DBManager {
 		ResultSet rs = null;
 		
 		try{
-			stmt = con.prepareStatement("SELECT * FROM movie natural join performed_by, directed_by WHERE genre like ?");
+			stmt = con.prepareStatement("select * from movie natural left join performed_by natural join directed_by WHERE genre like ?");
 			stmt.setString(1, genre);
 			rs = stmt.executeQuery();
 			
