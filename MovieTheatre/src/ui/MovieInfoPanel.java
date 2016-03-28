@@ -234,7 +234,7 @@ public class MovieInfoPanel extends JPanel {
 			// ------------------------------------------------------------------
 			// Initializes movie item components
 			listItemParent = new JPanel();
-			listItemParent.setBackground(Color.LIGHT_GRAY);
+			listItemParent.setBackground(new Color(102,102,102));
 			listItemContainer = new JPanel();
 			listItemContainer.setBackground(new Color(0,0,51));
 			listItemContainer.setSize(400, 100);
