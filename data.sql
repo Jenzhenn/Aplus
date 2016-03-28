@@ -44,25 +44,25 @@ values('Sashimi Tataki', '6048691038', '183949', '50');
 
 --Movie
 insert into Movie
-values('Mamamia','comedy','ENG','112','104112','PG');
+values('The Sweet Hereafter','comedy','ENG','112','104112','PG');
 
 insert into Movie
-values('Killer in the Class','violence','ENG','176','344201','NC17');
+values('The Wild Bunch','violence','ENG','176','344201','NC17');
 
 insert into Movie
-values('Titanic','romance','ENG','160','098344','R');
+values('Lost in Translation','romance','ENG','160','098344','R');
 
 insert into Movie
-values('Active Coding Life','action','FREN','120','399920','PG13');
+values('The Searchers','action','FREN','120','399920','PG13');
 
 insert into Movie
-values('Ma Nerdy Cody Fam','family','FREN','63','120002','G');
+values('Ratatouille','family','FREN','63','120002','G');
 
 insert into Movie
 values('Upon Awakening','violence','JPN','142','540222','R');
 
 insert into Movie
-values('Mary the Dog','family','JPN','142','760232','PG13');
+values('Mary And Three Little Dogs','family','JPN','142','760232','PG13');
 
 insert into Movie
 values('Tree House','comedy','CHN','142','943322','G');
