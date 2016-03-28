@@ -234,9 +234,9 @@ public class MovieInfoPanel extends JPanel {
 			// ------------------------------------------------------------------
 			// Initializes movie item components
 			listItemParent = new JPanel();
-			listItemParent.setBackground(SystemColor.menu);
+			listItemParent.setBackground(Color.LIGHT_GRAY);
 			listItemContainer = new JPanel();
-			listItemContainer.setBackground(SystemColor.menu);
+			listItemContainer.setBackground(new Color(0,0,51));
 			listItemContainer.setSize(400, 100);
 			listItemContainer.setLayout(new MigLayout("", "[400px][][][][][][][][][][][][][]", "[][][][][][][][][][]"));
 
@@ -251,38 +251,50 @@ public class MovieInfoPanel extends JPanel {
 			lblMin = new JLabel("min");
 			
 			JLabel directorHeading = new JLabel("Director(s): ");
+			directorHeading.setForeground(new Color(153,153,102));
 			listItemContainer.add(directorHeading, "flowx,cell 0 2");
 			
 			JLabel actorHeading = new JLabel("Actor(s): ");
+			actorHeading.setForeground(new Color(153,153,102));
 			listItemContainer.add(actorHeading, "flowx,cell 0 3");
 			
 			directorLabel.setFont(new Font("Cordia New", Font.PLAIN, 20));
+			directorLabel.setForeground(new Color(153,153,102));
 			listItemContainer.add(directorLabel, "cell 0 2");
 
 			actorLabel.setFont(new Font("Cordia New", Font.PLAIN, 20));
+			actorLabel.setForeground(new Color(153,153,102));
 			listItemContainer.add(actorLabel, "cell 0 3");
 
 			titleLabel.setFont(new Font("Cordia New", Font.BOLD, 50));
+			titleLabel.setForeground(new Color(153, 153, 0));
 			listItemContainer.add(titleLabel, "cell 0 0");
 		
 			
 			listItemContainer.add(ratingLabel, "flowx,cell 0 1");
+			ratingLabel.setForeground(new Color(204, 204, 204));
 			ratingLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			
 			JLabel seperator1 = new JLabel("    |    ");
+			seperator1.setForeground(new Color(204, 204, 204));
 			listItemContainer.add(seperator1, "cell 0 1");
 			
-			listItemContainer.add(genreLabel, "cell 0 1");
+			genreLabel.setForeground(new Color(204, 204, 204));
 			genreLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
+			listItemContainer.add(genreLabel, "cell 0 1");
 			
-			JLabel label = new JLabel("     |    ");
-			listItemContainer.add(label, "cell 0 1");
+			JLabel seperator2 = new JLabel("     |    ");
+			seperator2.setFont(new Font("Cordia New", Font.PLAIN, 18));
+			seperator2.setForeground(new Color(204, 204, 204));
+			listItemContainer.add(seperator2, "cell 0 1");
 			
+			lengthLabel.setForeground(new Color(204, 204, 204));
+			lengthLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			listItemContainer.add(lengthLabel, "cell 0 1");
-			lengthLabel.setFont(new Font("Cordia New", Font.PLAIN, 15));
 			
 			JLabel lblMin = new JLabel("min");
 			listItemContainer.add(lblMin, "cell 0 1");
+			lblMin.setForeground(new Color(204, 204, 204));
 			lblMin.setFont(new Font("Cordia New", Font.PLAIN, 15));
 			
 			
