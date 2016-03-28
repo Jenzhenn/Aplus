@@ -9,6 +9,7 @@ import java.util.*;
 
 import core.Employee;
 import core.Movie;
+import core.Ticket;
 
 public class DBManager {
 	
@@ -26,7 +27,7 @@ public class DBManager {
 		//connect to database
 		try {
 			con = DriverManager.getConnection(
-					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_n2v8", "a36847127");
+					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_s2u9a", "a33425125");
 		} catch (SQLException e) {
 			System.out.println("Connection failed");
 			e.printStackTrace();
@@ -388,6 +389,38 @@ public class DBManager {
 		finally{
 			close(stmt,rs);
 		}
+	}
+	
+	public List<Ticket> seeReservedTicket(String cphone) throws Exception{
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			stmt = con.prepareStatement("select online_sold.conf_code, ticket.ticket_num, movie.title, ticket.show_time, ticket.show_date, ticket.audi_num, ticket.seat_num from ticket, online_sold, movie where ticket.cphone like ? and ticket.ticket_num = online_sold.ticket_num and ticket.movie_ID = movie.movie_ID");
+			stmt.setString(1, cphone);
+			rs = stmt.executeQuery();
+		while(rs.next()){
+			String confCode = rs.getString("conf_code");
+            String title = rs.getString("title");
+            String date = rs.getString("show_date");
+            String time = rs.getString("show_time");
+            int audiNum = rs.getInt("audi_num");
+            String seatNum = rs.getString("seat_num");
+
+            float num = 0;
+            int i =0;
+            
+            Ticket tempTicket = new Ticket(null,null,null,num,i,time,date,seatNum,audiNum,null,title,confCode);
+            tickets.add(tempTicket);
+		}
+		
+		return tickets;
+		}
+		finally{
+			close(stmt,rs);
+		}
+		
 	}
 	
 	public int availableSeats(int auditorium, String date, String time, String mID)throws Exception{

@@ -49,9 +49,9 @@ public class PointFrame extends JFrame {
 		JLabel lblMemberVerification = new JLabel("Member Verification:");
 		lblMemberVerification.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblMemberVerification.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMemberVerification.setBounds(10, 10, 133, 19);
+		lblMemberVerification.setBounds(-18, 0, 172, 32);
 		labelPanel.add(lblMemberVerification);
-		lblMemberVerification.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMemberVerification.setFont(new Font("Cordia New", Font.PLAIN, 20));
 		
 		JPanel phonePanel = new JPanel();
 		phonePanel.setBounds(0, 37, 272, 72);
@@ -59,12 +59,12 @@ public class PointFrame extends JFrame {
 		phonePanel.setLayout(null);
 		
 		JLabel lblEnterPhone = new JLabel("Enter phone:");
-		lblEnterPhone.setBounds(10, 10, 73, 15);
+		lblEnterPhone.setBounds(10, 14, 73, 15);
 		phonePanel.add(lblEnterPhone);
-		lblEnterPhone.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEnterPhone.setFont(new Font("Cordia New", Font.PLAIN, 15));
 		
 		textField = new JTextField();
-		textField.setBounds(93, 8, 96, 21);
+		textField.setBounds(81, 12, 96, 21);
 		phonePanel.add(textField);
 		textField.setColumns(10);
 		
@@ -80,7 +80,7 @@ public class PointFrame extends JFrame {
 				}	
 			}
 		});
-		btnOk.setBounds(199, 7, 63, 22);
+		btnOk.setBounds(187, 11, 63, 22);
 		phonePanel.add(btnOk);
 	}
 

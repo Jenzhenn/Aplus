@@ -12,8 +12,9 @@ public class Ticket {
 	private int audiNum;
 	private String movieID;
 	private String title;
+	private String confCode;
 	
-	public Ticket(String ticketNum,String cName,String cPhone,float price,int isSold,String showTime,String showDate,String seatNum,int audiNum,String movieID,String title){
+	public Ticket(String ticketNum,String cName,String cPhone,float price,int isSold,String showTime,String showDate,String seatNum,int audiNum,String movieID,String title, String confCode){
 		super();
 		this.ticketNum = ticketNum;
 		this.cName = cName;
@@ -26,6 +27,7 @@ public class Ticket {
 		this.setAudiNum(audiNum);
 		this.movieID = movieID;
 		this.title = title;
+		this.confCode = confCode;
 	}
 	
 	public String printTicket(){
@@ -59,5 +61,23 @@ public class Ticket {
 		return audiNum;
 	}
 	
+	public String getConfCode(){
+		return confCode;
+	}
+	
+	public String getSeatNum(){
+		return seatNum;
+	}
+	
+	public String getTitle(){
+		return title;
+	}
+	
+	public String getShowTime(){
+		return showTime;
+	}
+	public String getShowDate(){
+		return showDate;
+	}
  
 }

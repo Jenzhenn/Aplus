@@ -2,12 +2,14 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import dao.DBManager;
 import net.miginfocom.swing.MigLayout;
@@ -22,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -37,6 +40,7 @@ public class CustomerFrame extends JFrame {
 	private JButton btnMovieInfo;
 	private JButton btnBuyTicket;
 	private JButton btnMemPoint;
+	private JButton btnMemPoint_1;
 
 	/**
 	 * Create the frame.
@@ -108,12 +112,19 @@ public class CustomerFrame extends JFrame {
 		splitPane.setRightComponent(panelRight);
 		panelRight.setLayout(new CardLayout(0, 0));
 
-		btnMemPoint = new JButton("See Ticket");
-		btnMemPoint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMemPoint_1 = new JButton("See Ticket");
+
+		btnMemPoint_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame phoneFrame = new PhoneFrame(db);
+				phoneFrame.setVisible(true);
+	            phoneFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
 		});
-		panelLeft.add(btnMemPoint, "cell 0 2");
+
+		
+		panelLeft.add(btnMemPoint_1, "cell 0 2");
 		
 		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
@@ -121,6 +132,54 @@ public class CustomerFrame extends JFrame {
 		JPanel panelSellTicket = new TicketPanel(db);
 		panelRight.add(panelSellTicket, "Sell Tickets");
 		pack();
+			
+	}
+
+	public class PhoneFrame extends JFrame {
+
+		private JPanel contentPane;
+		private JTextField textField;
+		private DBManager db;
+
+		/**
+		 * Create the frame.
+		 */
+		public PhoneFrame(DBManager db) {
+			this.db=db;
+			
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setBounds(100, 100, 273, 149);
+			contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(contentPane);
+			contentPane.setLayout(null);
+			
+			JLabel lblEnterPhone = new JLabel("Enter phone:");
+			lblEnterPhone.setBounds(27, 35, 80, 20);
+			contentPane.add(lblEnterPhone);
+			lblEnterPhone.setFont(new Font("Cordia New", Font.PLAIN, 20));
+			
+			textField = new JTextField();
+			textField.setFont(new Font("Cordia New", Font.PLAIN, 15));
+			textField.setBounds(115, 35, 96, 21);
+			contentPane.add(textField);
+			textField.setColumns(10);
+			
+			JButton btnOk = new JButton("OK");
+			btnOk.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					String cphone = textField.getText();
+					JPanel panelReservedTicket = new ReservedTicketPanel(db,cphone);
+					panelRight.add(panelReservedTicket, "Reserved Ticket");
+					CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+					cardLayout.show(panelRight, "Reserved Ticket");
+					dispose();
+				}
+			});
+			btnOk.setBounds(191, 82, 56, 19);
+			contentPane.add(btnOk);
+		}
 	}
 
 }

@@ -276,6 +276,7 @@ public class MovieInfoPanel extends JPanel {
 			ratingLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			
 			JLabel seperator1 = new JLabel("    |    ");
+			seperator1.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			seperator1.setForeground(new Color(204, 204, 204));
 			listItemContainer.add(seperator1, "cell 0 1");
 			

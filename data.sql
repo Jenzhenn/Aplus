@@ -432,6 +432,9 @@ values('29470','009823784276');
 insert into online_sold
 values('36766','476665789432');
 
+insert into online_sold
+values('11456', '388822109938');
+
 
 --cashier_sold
 insert into cashier_sold
@@ -453,9 +456,6 @@ values('37466','90988886');
 --machine_sold
 insert into machine_sold
 values('11001','0119');
-
-insert into machine_sold
-values('11456','0119');
 
 insert into machine_sold
 values('11034','0002');
