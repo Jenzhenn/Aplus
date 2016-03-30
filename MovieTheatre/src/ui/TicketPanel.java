@@ -71,7 +71,7 @@ public class TicketPanel extends JPanel {
 		selectionPanel.setLayout(null);
 		
 		JPanel titlePanel = new JPanel();
-		titlePanel.setBounds(40, 36, 302, 32);
+		titlePanel.setBounds(40, 36, 356, 32);
 		selectionPanel.add(titlePanel);
 		titlePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -145,7 +145,7 @@ public class TicketPanel extends JPanel {
 		titlePanel.add(titleDropDown);
 		
 		JPanel datePanel = new JPanel();
-		datePanel.setBounds(40, 78, 302, 32);
+		datePanel.setBounds(40, 78, 356, 32);
 		selectionPanel.add(datePanel);
 		datePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -158,7 +158,7 @@ public class TicketPanel extends JPanel {
 		datePanel.add(dateDropDown);
 		
 		JPanel timePanel = new JPanel();
-		timePanel.setBounds(40, 120, 302, 32);
+		timePanel.setBounds(40, 120, 356, 32);
 		selectionPanel.add(timePanel);
 		timePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		

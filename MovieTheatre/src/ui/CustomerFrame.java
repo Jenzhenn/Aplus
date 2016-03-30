@@ -131,7 +131,6 @@ public class CustomerFrame extends JFrame {
 		
 		JPanel panelSellTicket = new TicketPanel(db);
 		panelRight.add(panelSellTicket, "Sell Tickets");
-		pack();
 			
 	}
 
