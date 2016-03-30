@@ -67,6 +67,12 @@ values('Mary And Three Little Dogs','family','JPN','142','760232','PG13');
 insert into Movie
 values('Tree House','comedy','CHN','142','943322','G');
 
+insert into Movie
+values('Stand By Me Doraemon', 'family', 'JPN', '93', '900211', 'G');
+
+insert into Movie
+values('The Boy and the Beast', 'family', 'JPN', '120', '654221', 'G');
+
 
 --actor
 insert into actor
@@ -92,6 +98,12 @@ values('Akatsuki Mabuji','F');
 
 insert into actor
 values('Holmes Plate','M');
+
+insert into actor
+values('Doraemon','?');
+
+insert into actor
+values('Kyuuta','M');
 
 --director
 insert into director
@@ -121,6 +133,12 @@ values('Andy Jodmoris','M');
 insert into director
 values('Poet Ghanrol','M');
 
+insert into director
+values('Hosoda Mamoru', 'M');
+
+insert into director
+values('Fujiko F Fujio', 'M');
+
 --performed_by
 insert into performed_by
 values('Ian Holm', '1997', '104112');
@@ -145,6 +163,12 @@ values('Akatsuki Mabuji', '2011', '760232');
 
 insert into performed_by
 values('Holmes Plate', '2013', '943322');
+
+insert into performed_by
+values('Kyuuta', '2015', '654221');
+
+insert into performed_by
+values('Doraemon', '2014', '900211');
 
 --directed_by
 insert into directed_by
@@ -173,6 +197,12 @@ values('Andy Jodmoris', '2011', '760232');
 
 insert into directed_by
 values('Poet Ghanrol', '2013', '943322');
+
+insert into directed_by
+values('Fujiko F Fujio', '2014', '900211');
+
+insert into directed_by
+values('Hosoda Mamoru', '2015', '654221');
 
 --Auditorium
 insert into Auditorium

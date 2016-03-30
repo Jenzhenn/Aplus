@@ -167,6 +167,10 @@ primary key(ticket_num),
 foreign key(ticket_num) references ticket,
 foreign key(machineID) references ticket_machine);
 
+/*
+select * from (select movie_ID from movie minus (select movie_ID from isPlaying)) natural left join movie natural left join directed_by natural left join performed_by;
+*/
+
 
 
 
