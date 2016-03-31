@@ -114,9 +114,9 @@ public class MovieInfoPanel extends JPanel {
 		add(listScroller, "cell 0 1 1 2, alignx left,aligny center");
 		
 		// display all movie when all movie button clicked
-		btnAllMovie.addMouseListener(new MouseAdapter() {
+		btnAllMovie.addActionListener(new  ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
                 List<Movie> movies = null;
         		movieListModel = new DefaultListModel();
         		listView.setModel(movieListModel);
@@ -135,6 +135,27 @@ public class MovieInfoPanel extends JPanel {
 
 				
 			}
+		});
+		
+		// display upcoming movie when upcoming movie button clicked
+		btnUpcoming.addActionListener(new  ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				List<Movie> movies = null;
+				movieListModel = new DefaultListModel();
+				listView.setModel(movieListModel);
+				
+				try{
+					movies = dbManager.getUpcomingMovies();
+				} catch (Exception e1){
+					e1.printStackTrace();
+				}
+				
+				for (Movie movie : movies){
+					movieListModel.addElement(movie);
+				}
+				listView.repaint();
+			}
+			
 		});
 
 		// display movie by genre

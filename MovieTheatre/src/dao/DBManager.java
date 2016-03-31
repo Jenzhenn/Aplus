@@ -260,6 +260,35 @@ public class DBManager {
 			close(stmt,rs);
 		}
 	}
+	
+	public List<Movie> getUpcomingMovies() throws Exception{
+		
+		List<Movie> movieList = new ArrayList<Movie>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery("select * from (select movie_ID from movie minus (select movie_ID from isPlaying)) natural left join movie natural left join directed_by natural left join performed_by");
+		while(rs.next()){
+			Movie tempMovie = convertRowToMovie(rs);
+			if(movieList.contains(tempMovie)){
+				int index = movieList.indexOf(tempMovie);
+				Movie sameMovie = movieList.get(index);
+				tempMovie.mergeDirector(sameMovie);
+				tempMovie.mergeActor(sameMovie);
+				movieList.remove(index);
+			}
+			movieList.add(tempMovie);
+		}
+		
+		return movieList;
+	}
+	finally{
+		close(stmt,rs);
+	}
+		
+	}	
 
 	public List<Movie> displayByGenre(String genre) throws Exception{
 		List<Movie> movieList = new ArrayList<Movie>();

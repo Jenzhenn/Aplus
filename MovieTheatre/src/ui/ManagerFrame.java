@@ -165,7 +165,6 @@ public class ManagerFrame extends JFrame {
 		
 		JPanel panelTicketSold = new MostLeastSoldPanel(db);
 		panelRight.add(panelTicketSold, "Tickets Sold");
-		pack();
 	}
 
 
