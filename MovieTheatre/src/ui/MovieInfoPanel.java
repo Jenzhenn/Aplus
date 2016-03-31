@@ -47,64 +47,66 @@ public class MovieInfoPanel extends JPanel {
 	private ScrollableListContainer listScroller;
 	private JList listView;
 	private DefaultListModel movieListModel;
+	private String currentState;
 	/**
 	 * Create the panel.
 	 */
 	public MovieInfoPanel(DBManager db) {
-		
+
 
 		dbManager = db;
-		
+		currentState = "All";
+
 		// create dbManager
 		try {
 			dbManager = new DBManager();
 		} catch (Exception exc) {
 			JOptionPane.showMessageDialog(this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE); 
 		}
-		
+
 		setLayout(new MigLayout("", "[145px,grow]", "[10px][][25px,grow]"));
-		
+
 		JPanel displayMoviePanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) displayMoviePanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(displayMoviePanel, "flowx,cell 0 0,alignx left,aligny center");
-		
+
 		JLabel lblDisplayByGenre = new JLabel("Display by genre:");
 		displayMoviePanel.add(lblDisplayByGenre);
-		
 
-		
+
+
 		JComboBox<String> genreDropDown = new JComboBox<String>();
 
-		
+
 		genreDropDown.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Action", "Comedy", "Family", "Romance", "Violence"}));
 		displayMoviePanel.add(genreDropDown);
-		
+
 		JButton btnAllMovie = new JButton("All Movie");
 		displayMoviePanel.add(btnAllMovie);
-		
+
 		JButton btnUpcoming = new JButton("Upcoming");
 		displayMoviePanel.add(btnUpcoming);
-		
+
 		//display all movies when enter the panel
 		movieListModel = new DefaultListModel();
 		listView = new JList();
 		listView.setBackground(SystemColor.menu);
-		
+
 		try {
-            List<Movie> movies = null;
-            movies = dbManager.getAllMovie();
-    		if (movies != null) {
-    			for (Movie movie : movies) {
-    				movieListModel.addElement(movie);
-    			}
-    		}
-            MovieTableModel movieModel = new MovieTableModel(movies);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-		
+			List<Movie> movies = null;
+			movies = dbManager.getAllMovie();
+			if (movies != null) {
+				for (Movie movie : movies) {
+					movieListModel.addElement(movie);
+				}
+			}
+			MovieTableModel movieModel = new MovieTableModel(movies);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		listView.setModel(movieListModel);
 		MovieListCellRenderer renderer = new MovieListCellRenderer();
 		listView.setCellRenderer(renderer);
@@ -112,91 +114,125 @@ public class MovieInfoPanel extends JPanel {
 		listScroller = new ScrollableListContainer(listView);
 		listScroller.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 		add(listScroller, "cell 0 1 1 2, alignx left,aligny center");
-		
+
 		// display all movie when all movie button clicked
 		btnAllMovie.addActionListener(new  ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-                List<Movie> movies = null;
-        		movieListModel = new DefaultListModel();
-        		listView.setModel(movieListModel);
-        		
-                try {
-                    movies = dbManager.getAllMovie();
-                } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                
-        		for (Movie movie : movies) {
-        			movieListModel.addElement(movie);
-        		}   
-        		listView.repaint();
+				List<Movie> movies = null;
+				movieListModel = new DefaultListModel();
+				listView.setModel(movieListModel);
 
-				
+				try {
+					movies = dbManager.getAllMovie();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				for (Movie movie : movies) {
+					movieListModel.addElement(movie);
+				}   
+				listView.repaint();
+				currentState = "All";
+
 			}
 		});
-		
+
 		// display upcoming movie when upcoming movie button clicked
 		btnUpcoming.addActionListener(new  ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				List<Movie> movies = null;
 				movieListModel = new DefaultListModel();
 				listView.setModel(movieListModel);
-				
+
 				try{
 					movies = dbManager.getUpcomingMovies();
 				} catch (Exception e1){
 					e1.printStackTrace();
 				}
-				
+
 				for (Movie movie : movies){
 					movieListModel.addElement(movie);
 				}
 				listView.repaint();
+				currentState = "Upcoming";
 			}
-			
+
 		});
 
 		// display movie by genre
-        genreDropDown.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //select by genre
-        		movieListModel = new DefaultListModel();
-        		listView.setModel(movieListModel);
-        		
-                String genre = (String) genreDropDown.getSelectedItem();
-                List<Movie> movies = null;
-                
-                if(genre != "All") {
-                    try {
-                        System.out.println(genre);
-                        movies = dbManager.displayByGenre(genre.toLowerCase());
-                        DBManager.printMovies(movies);
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }else {
-                    try {
-                        movies = dbManager.getAllMovie();
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }
-        		for (Movie movie : movies) {
-        			movieListModel.addElement(movie);
-        		}
+		genreDropDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//select by genre
+				movieListModel = new DefaultListModel();
+				listView.setModel(movieListModel);
 
-        		listView.repaint();
-            }
-        });	    
-		
-		
+				String genre = (String) genreDropDown.getSelectedItem();
+				List<Movie> movies = null;
+
+				if (currentState.equals("Upcoming")){
+					
+					if(genre != "All") {
+						try {
+							System.out.println(genre);
+							movies = dbManager.displayUpcomingByGenre(genre.toLowerCase());
+							DBManager.printMovies(movies);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}else {
+						try {
+							movies = dbManager.getUpcomingMovies();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				} else {
+
+					if(genre != "All") {
+						try {
+							System.out.println(genre);
+							movies = dbManager.displayByGenre(genre.toLowerCase());
+							DBManager.printMovies(movies);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}else {
+						try {
+							movies = dbManager.getAllMovie();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+
+				}
+
+				for (Movie movie : movies) {
+					movieListModel.addElement(movie);
+				}
+
+				listView.repaint();
+			}
+		});	    
+
+
+
 	}
 
-	
+	public void setState(String state){
+		currentState = state;
+	}
+
+	public String getState(){
+		return currentState;
+	}
+
+
 	class ScrollableListContainer extends JScrollPane {
 
 		private static final long serialVersionUID = -103572977104124066L;
@@ -230,7 +266,7 @@ public class MovieInfoPanel extends JPanel {
 
 		}
 	}
-	
+
 	/*
 	 * Handles the rendering/format of a movie item in the list.
 	 */
@@ -261,7 +297,7 @@ public class MovieInfoPanel extends JPanel {
 			listItemContainer.setSize(400, 100);
 			listItemContainer.setLayout(new MigLayout("", "[400px][][][][][][][][][][][][][]", "[][][][][][][][][][]"));
 
-			
+
 			titleLabel = new JLabel();
 			genreLabel = new JLabel();
 			languageLabel = new JLabel();
@@ -270,15 +306,15 @@ public class MovieInfoPanel extends JPanel {
 			directorLabel = new JLabel();
 			actorLabel = new JLabel();
 			lblMin = new JLabel("min");
-			
+
 			JLabel directorHeading = new JLabel("Director(s): ");
 			directorHeading.setForeground(new Color(153,153,102));
 			listItemContainer.add(directorHeading, "flowx,cell 0 2");
-			
+
 			JLabel actorHeading = new JLabel("Actor(s): ");
 			actorHeading.setForeground(new Color(153,153,102));
 			listItemContainer.add(actorHeading, "flowx,cell 0 3");
-			
+
 			directorLabel.setFont(new Font("Cordia New", Font.PLAIN, 20));
 			directorLabel.setForeground(new Color(153,153,102));
 			listItemContainer.add(directorLabel, "cell 0 2");
@@ -290,39 +326,39 @@ public class MovieInfoPanel extends JPanel {
 			titleLabel.setFont(new Font("Cordia New", Font.BOLD, 50));
 			titleLabel.setForeground(new Color(153, 153, 0));
 			listItemContainer.add(titleLabel, "cell 0 0");
-		
-			
+
+
 			listItemContainer.add(ratingLabel, "flowx,cell 0 1");
 			ratingLabel.setForeground(new Color(204, 204, 204));
 			ratingLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
-			
+
 			JLabel seperator1 = new JLabel("    |    ");
 			seperator1.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			seperator1.setForeground(new Color(204, 204, 204));
 			listItemContainer.add(seperator1, "cell 0 1");
-			
+
 			genreLabel.setForeground(new Color(204, 204, 204));
 			genreLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			listItemContainer.add(genreLabel, "cell 0 1");
-			
+
 			JLabel seperator2 = new JLabel("     |    ");
 			seperator2.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			seperator2.setForeground(new Color(204, 204, 204));
 			listItemContainer.add(seperator2, "cell 0 1");
-			
+
 			lengthLabel.setForeground(new Color(204, 204, 204));
 			lengthLabel.setFont(new Font("Cordia New", Font.PLAIN, 18));
 			listItemContainer.add(lengthLabel, "cell 0 1");
-			
+
 			JLabel lblMin = new JLabel("min");
 			listItemContainer.add(lblMin, "cell 0 1");
 			lblMin.setForeground(new Color(204, 204, 204));
 			lblMin.setFont(new Font("Cordia New", Font.PLAIN, 15));
-			
-			
+
+
 
 			// ------------------------------------------------------------------
-			
+
 
 			Border paddingBorder = BorderFactory.createEmptyBorder(10, 10, 10,
 					10);
@@ -353,7 +389,7 @@ public class MovieInfoPanel extends JPanel {
 			actorList.addAll(actorSet);
 			String directors = "";
 			String actors = "";
-			
+
 			//convert directorList to string
 			for(String d:directorList){
 				directors += d + "   ";
