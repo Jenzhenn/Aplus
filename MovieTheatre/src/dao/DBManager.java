@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
+import core.Auditorium;
 import core.Employee;
 import core.Movie;
-import core.Ticket;
 
 public class DBManager {
 	
@@ -25,9 +25,14 @@ public class DBManager {
 		}
 		
 		//connect to database
+		dbConnector();
+	}
+////// Customer
+
+	private void dbConnector() {
 		try {
 			con = DriverManager.getConnection(
-					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_s2u9a", "a33425125");
+					  "jdbc:oracle:thin:@localhost:1522:ug", "ora_n2v8", "a36847127");
 		} catch (SQLException e) {
 			System.out.println("Connection failed");
 			e.printStackTrace();
@@ -46,7 +51,6 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-////// Customer
     
     public Integer getPoint(String cphone) throws SQLException{
     	PreparedStatement stmt = null;
@@ -391,73 +395,41 @@ public class DBManager {
 		}
 	}
 	
-	public List<Ticket> seeReservedTicket(String cphone) throws Exception{
-		List<Ticket> tickets = new ArrayList<Ticket>();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		try{
-			stmt = con.prepareStatement("select online_sold.conf_code, ticket.ticket_num, movie.title, ticket.show_time, ticket.show_date, ticket.audi_num, ticket.seat_num from ticket, online_sold, movie where ticket.cphone like ? and ticket.ticket_num = online_sold.ticket_num and ticket.movie_ID = movie.movie_ID");
-			stmt.setString(1, cphone);
-			rs = stmt.executeQuery();
-		while(rs.next()){
-			String confCode = rs.getString("conf_code");
-            String title = rs.getString("title");
-            String date = rs.getString("show_date");
-            String time = rs.getString("show_time");
-            int audiNum = rs.getInt("audi_num");
-            String seatNum = rs.getString("seat_num");
+	public List<Auditorium> availableSeats(String title, String date, String time)throws Exception{
 
-            float num = 0;
-            int i =0;
-            
-            Ticket tempTicket = new Ticket(null,null,null,num,i,time,date,seatNum,audiNum,null,title,confCode);
-            tickets.add(tempTicket);
-		}
-		
-		return tickets;
-		}
-		finally{
-			close(stmt,rs);
-		}
-		
-	}
-	
-	public int availableSeats(int auditorium, String date, String time, String mID)throws Exception{
-		int avail_seat = 0;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		List<Auditorium> audi_seat_list = new ArrayList<Auditorium>();
 		
 		try{
-			stmt = con.prepareStatement("SELECT * FROM ticket WHERE show_date = ? AND show_time = ? AND movie_ID = ? AND audi_num = ?");
-			stmt.setString(1, date);
-			stmt.setString(2, time);
-			stmt.setString(3, mID);
-			stmt.setInt(4, auditorium);
+			stmt = con.prepareStatement("SELECT audi_num,COUNT(isSold) as count FROM ticket natural left join movie WHERE title = ? AND show_date = ? AND show_time = ? AND isSold = 0 GROUP BY audi_num,isSold");
+			stmt.setString(1, title);
+			stmt.setString(2, date);
+			stmt.setString(3, time);
 			rs = stmt.executeQuery();
 			
 			while(rs.next()){
-
-				
-				int isSold = rs.getInt("isSold");
-				rs.getString("show_time");
-				rs.getString("show_date");
-				rs.getString("movie_ID");
-				rs.getInt("audi_num");
-				
-				if (isSold == 0) {
-					avail_seat = avail_seat+1;
-				}
+				Auditorium audi_seat = convertRowToAuditorium(rs);
+				audi_seat_list.add(audi_seat);
 			}
-			return avail_seat;
+			return audi_seat_list;
 		}
 		finally{
 			close(stmt,rs);
-		}	
-		
+		}			
 	}
+
 	
-    //////For purchasing tickets
+	
+    private Auditorium convertRowToAuditorium(ResultSet rs) throws SQLException {
+		// TODO Auto-generated method stub
+		int a = rs.getInt("audi_num");
+		int s = rs.getInt("count");
+		Auditorium audi_seat = new Auditorium(a, s);
+    	return audi_seat;
+	}
+
+	//////For purchasing tickets
 	public List<String> showAvailableTime(String movie, String date) throws Exception{
 		// show available dates for the selected movie
 	    List<String> timeList = new ArrayList<String>();
@@ -548,14 +520,25 @@ public class DBManager {
 
 		//DBManager.printMovies(dao.displayByGenre("family"));
 		//DBManager.printMovies(dao.getAllMovie());	
-		//System.out.println("Available seats: " + dao.availableSeats(2, "3/22/2016", "15:45", "104112"));
-		//System.out.println("Available seats: " + dao.availableSeats(8, "1/23/2016", "9:20", "098344"));
-		//System.out.println("Available seats: " + dao.availableSeats(1, "1/23/2016", "9:20", "098344"));
+		
+		System.out.println("//show Available seats");
+//		System.out.println("Auditorium: "+ (dao.availableSeats("Mamamia","3/22/2016", "15:45")));
+//		System.out.println("Auditorium: " + dao.availableSeats("Titanic", "1/23/2016", "9:20"));
+//		System.out.println("Auditorium: " + dao.availableSeats("Titanic", "1/23/2016", "9:20"));
 
+		List<Auditorium> seats = dao.availableSeats("Mamamia","3/22/2016", "15:45");
+		for(Auditorium seat:seats){
+			System.out.println(seat);
+		}
+		
+		
+		System.out.println("//show Playing Movie");
 		List<String> movies = dao.showPlayingMovie();
 		for(String title:movies){
 			System.out.println(title);
 		}
+		
+		System.out.println("//show Available Time");
 		List<String> times = dao.showAvailableTime("Mamamia", "1/23/2016");
 		for(String time:times){
 			System.out.println(time);
