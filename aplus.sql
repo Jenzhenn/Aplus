@@ -168,11 +168,33 @@ foreign key(ticket_num) references ticket,
 foreign key(machineID) references ticket_machine);
 
 /*
-select * from (select movie_ID from movie minus (select movie_ID from isPlaying)) natural left join movie natural left join directed_by natural left join performed_by;
+SELECT show_time FROM ticket natural left join movie WHERE title = 'Ratatouille' AND show_date = '1/23/2016' AND isSold = 0 GROUP BY show_time
 */
 
 
 
+/*
+buy ticket
+show more than 1 seats: lost in translation
+show more than 1 choices of time: Ratatouille
+show more than 1 auditorium: 1/23/2016 9:20 Ratatouille
+
+member point
+7787774309 - 430	
+6042765729 - 60
+
+see ticket
+6042765729
+
+cashier
+EID: 90988886
+
+manager
+EID: 34432122
+
+
+
+*/
 
 
 

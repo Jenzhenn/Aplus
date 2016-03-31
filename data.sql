@@ -276,6 +276,15 @@ values('C11', '8');
 insert into Seat
 values('C11', '9');
 
+insert into Seat
+values('C12','9');
+
+insert into Seat
+values('C12', '8');
+
+insert into Seat
+values('A10', '8');
+
 
 --employee
 insert into employee
@@ -365,7 +374,7 @@ insert into isPlaying
 values('9:20','1/23/2016','NORM','9','120002','22234122');
 
 insert into isPlaying
-values('10:17', '1/23/2016', 'NORM', '9','120002','22234122');
+values('10:17', '1/23/2016', 'NORM', '8','120002','22234122');
 
 insert into isPlaying
 values('17:02','2/02/2016','NORM','9','540222','22234122');
@@ -378,6 +387,9 @@ values('12:32', '4/12/2016', 'NORM','9','760232','22234122');
 
 insert into isPlaying
 values('22:30', '1/03/2016', 'NORM','9','943322','22234122');
+
+insert into isPlaying
+values('9:20', '1/23/2016', 'NORM','8', '120002', '22234122');
 
 
 --ticket
@@ -436,7 +448,10 @@ insert into ticket
 values('11038', NULL, NULL, '12.75', '0', '9:20', '1/23/2016', 'C11', '9', '120002');
 
 insert into ticket
-values('11039', NULL, NULL, '10.00', '0', '10:17', '1/23/2016','C11', '9', '120002');
+values('22038', NULL, NULL, '10.00', '0', '9:20', '1/23/2016', 'A10','8', '120002');
+
+insert into ticket
+values('11039', NULL, NULL, '10.00', '0', '10:17', '1/23/2016','C12', '8', '120002');
 
 insert into ticket
 values('11040', NULL, NULL, '10.00', '0', '17:02', '2/02/2016','C11', '9', '540222');
@@ -445,7 +460,7 @@ insert into ticket
 values('11041', NULL, NULL, '10.00', '0', '3:43', '4/12/2016','C11', '9', '760232');
 
 insert into ticket
-values('11042', NULL, NULL, '10.00', '0', '12:32', '4/12/2016','C11', '9', '760232');
+values('11042', NULL, NULL, '10.00', '0', '12:32', '4/12/2016','C12', '9', '760232');
 
 insert into ticket
 values('11043', NULL, NULL, '10.00', '0', '22:30', '1/03/2016','C11', '9', '943322');

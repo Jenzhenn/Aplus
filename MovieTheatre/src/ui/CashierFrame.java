@@ -164,5 +164,6 @@ public class CashierFrame extends JFrame {
 		});
 		addHours.add(btnAdd, "cell 0 1");
 		pack();
+
 	}
 }
