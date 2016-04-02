@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -50,7 +51,8 @@ public class TicketPanel extends JPanel {
 	 */
 
 	public TicketPanel(DBManager db) {
-		repaint();
+		removeAll();
+
 
 		dbManager = db;
 
@@ -195,6 +197,8 @@ public class TicketPanel extends JPanel {
 				s2 = dateDropDown.getSelectedItem().toString();
 				s3 = timeDropDown.getSelectedItem().toString();
 				removeAll();
+				invalidate();
+				validate();
 				repaint();
 
 				JPanel audiPanel = new JPanel();
@@ -243,6 +247,7 @@ public class TicketPanel extends JPanel {
 				btnBuy.setFont(new Font("Cordia New", Font.PLAIN, 18));
 				btnBuy.setBounds(353, 189, 87, 23);
 				audiPanel.add(btnBuy);
+				
 			
 			}
 		});

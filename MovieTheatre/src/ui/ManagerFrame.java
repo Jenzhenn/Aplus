@@ -123,6 +123,8 @@ public class ManagerFrame extends JFrame {
 		JButton btnBuyTickets = new JButton("Sell Ticket");
 		btnBuyTickets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JPanel panelSellTicket = new TicketPanel(db);
+				panelRight.add(panelSellTicket, "Sell Tickets");
 				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
 				cardLayout.show(panelRight, "Sell Tickets");
 			}
@@ -159,9 +161,6 @@ public class ManagerFrame extends JFrame {
 		
 		JPanel panelEmployeeList = new EmployeeListPanel(db);
 		panelRight.add(panelEmployeeList, "Employee List");
-		
-		JPanel panelSellTicket = new TicketPanel(db);
-		panelRight.add(panelSellTicket, "Sell Tickets");
 		
 		JPanel panelTicketSold = new MostLeastSoldPanel(db);
 		panelRight.add(panelTicketSold, "Tickets Sold");

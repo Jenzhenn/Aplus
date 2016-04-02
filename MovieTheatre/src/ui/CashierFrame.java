@@ -114,6 +114,8 @@ public class CashierFrame extends JFrame {
 		JButton btnSellTicket = new JButton("Sell Ticket");
 		btnSellTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JPanel panelSellTicket = new TicketPanel(db);
+				panelRight.add(panelSellTicket, "Sell Tickets");
 				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
 				cardLayout.show(panelRight, "Sell Tickets");
 			}
@@ -137,9 +139,7 @@ public class CashierFrame extends JFrame {
 		panelRight.setLayout(new CardLayout(0, 0));
 		
 		JPanel panelMovieInfo = new MovieInfoPanel(db);
-		JPanel panelSellTicket = new TicketPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
-		panelRight.add(panelSellTicket, "Sell Tickets");
 		JPanel addHours = new JPanel();
 		addHours.setLayout(new MigLayout("", "[145px,grow]", "[10px][][25px,grow]"));
 		panelRight.add(addHours,"Add Hours");

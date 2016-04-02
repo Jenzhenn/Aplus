@@ -111,6 +111,8 @@ public class CustomerFrame extends JFrame {
 		btnBuyTicket = new JButton("Buy Ticket");
 		btnBuyTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JPanel panelSellTicket = new TicketPanel(db);
+				panelRight.add(panelSellTicket, "Sell Tickets");
 				CardLayout cardLayout = (CardLayout) panelRight.getLayout();
 				cardLayout.show(panelRight, "Sell Tickets");
 			}
@@ -136,10 +138,6 @@ public class CustomerFrame extends JFrame {
 		panelRight.setLayout(new CardLayout(0, 0));
 
 		btnMemPoint_1 = new JButton("See Ticket");
-		btnMemPoint_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 
 		btnMemPoint_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -156,9 +154,6 @@ public class CustomerFrame extends JFrame {
 		JPanel panelMovieInfo = new MovieInfoPanel(db);
 		panelRight.add(panelMovieInfo,"Movie Info");
 		
-		JPanel panelSellTicket = new TicketPanel(db);
-		panelRight.add(panelSellTicket, "Sell Tickets");
-
 		
 			
 	}
