@@ -193,7 +193,7 @@ manager
 EID: 34432122
 
 
-
+SELECT * FROM ticket natural left join movie WHERE title = 'Lost in Translation' AND show_date = '1/23/2016' AND show_time = '9:20' AND audi_num = '8' AND isSold = 0 AND ROWNUM = 1;
 */
 
 

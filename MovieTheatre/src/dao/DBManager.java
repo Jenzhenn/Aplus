@@ -592,6 +592,30 @@ public class DBManager {
 			close(stmt,rs);
 		}
 	}
+/*	
+public void buyTicket(String title, String date, String time, int audi_num){
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	
+	try{
+		stmt = con.prepareStatement("SELECT * FROM ticket natural left join movie WHERE title = ? AND show_date = ? AND show_time = ? AND audi_num = ? AND isSold = 0 AND ROWNUM = 1");
+		stmt.setString(1, title);
+		stmt.setString(2, date);
+		stmt.setString(3, time);
+		stmt.setInt(4, audi_num);
+		rs = stmt.executeQuery();
+		
+		while(rs.next()){
+			Auditorium audi_seat = convertRowToAuditorium(rs);
+			audi_seat_list.add(audi_seat);
+		}
+		return audi_seat_list;
+	}
+	finally{
+		close(stmt,rs);
+	}			
+}
+*/
   
 
 	public void quit(){
