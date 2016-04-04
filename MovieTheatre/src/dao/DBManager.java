@@ -709,6 +709,15 @@ public class DBManager {
         finally{
             close(stmt,rs);
         }
+        
+        try {
+            stmt = con.prepareStatement("update auditorium set availabilty = 0 where audi_num = ?");
+            stmt.setInt(1, audinum);
+            rs = stmt.executeQuery();
+        }
+        finally{
+            close(stmt,rs);
+        }
     }
     
         
