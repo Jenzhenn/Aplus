@@ -85,6 +85,8 @@ public class ManagerFrame extends JFrame {
 					String[] eidEnamePair =db.managerLogin(textEIDField.getText());
 					eid = eidEnamePair[0];
 					name = eidEnamePair[1];
+				    JPanel panelSetMovie = new SetMoviePanel(db,eid);
+				    panelRight.add(panelSetMovie, "Set Movie");
 					JLabel lblEid = new JLabel("EID: "+eid);
 					panelLeft.add(lblEid, "cell 0 9,aligny bottom");
 					JLabel lblName = new JLabel("Name:"+name);
@@ -133,6 +135,12 @@ public class ManagerFrame extends JFrame {
 		
 		JButton btnSetMovie = new JButton("Set Movie");
 		panelLeft.add(btnSetMovie, "cell 0 2");
+		btnSetMovie.addActionListener(new ActionListener(){
+		    public void actionPerformed(ActionEvent arg0){
+                CardLayout cardLayout = (CardLayout) panelRight.getLayout();
+                cardLayout.show(panelRight, "Set Movie");
+		    }
+		});
 		
 		JButton btnEmployeeList = new JButton("Employee List");
 		btnEmployeeList.addActionListener(new ActionListener() {
@@ -164,6 +172,8 @@ public class ManagerFrame extends JFrame {
 		
 		JPanel panelTicketSold = new MostLeastSoldPanel(db);
 		panelRight.add(panelTicketSold, "Tickets Sold");
+		
+
 		pack();
 	}
 
